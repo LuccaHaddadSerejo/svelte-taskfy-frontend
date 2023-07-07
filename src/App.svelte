@@ -1,9 +1,23 @@
-<h1 class="teste">Hello world!</h1>
+<script lang="ts">
+    import Header from "./components/Header/Header.svelte";
+</script>
+
+<Header/>
 
 <style lang="scss">
-    $color: red;
-    h1 {
-        color: $color;
+    :global(*) {
+	    margin: 0;
+	    padding: 0;
+	    border: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
     }
-        
+    :global(ol, ul) {
+	    list-style: none;
+	}
+    :global(button) {
+	    cursor: pointer;
+	}
 </style>
+
+
