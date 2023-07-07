@@ -1,17 +1,55 @@
 <script lang="ts">
     import plus from "../assets/plus.svg"
+    import { type Task } from "../interfaces/tasks.";
+
+    let value:string =  "";
+    let taskObj = {} as Task;
+
+    const createTask = async (data: Task): Promise<void> => {
+        try {
+            const res: Response = await fetch("http://localhost:3000/tasks", {
+                method:"POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            })
+            if(!res.ok){
+                await res.json()
+            }    
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const formatObj = (): void => {
+        const newObj:Task = {
+            title: value,
+            content: null
+        }
+
+        taskObj = newObj
+    }
+
+    const handleClick = (): void => {
+        formatObj()
+        createTask(taskObj)
+        value = ""
+    }
 </script>
 
 <div>
-    <input placeholder="Adicione uma nova tarefa" type="text">
-    <button>Criar <img src={plus} alt="Imagem de um símbolo de mais"></button>
+    <input bind:value="{value}" placeholder="Adicione uma nova tarefa" type="text">
+    <button on:click={handleClick}>Criar<img src={plus} alt="Imagem de um símbolo de mais"></button>
 </div>
 
 <style lang="scss">
     $color-one: #dcdcdc;
     $radius-one: 8px;
     $rem-half: 0.5rem;
-
+    h1{
+        color: white;
+    }
     div{
         display: flex;
         justify-content: center;
