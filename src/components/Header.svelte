@@ -1,20 +1,18 @@
 <script lang="ts">
-    import rocket from "../../assets/rocket.svg";
-    import mgwhite from "../../assets/mgwhite.svg"
-    import mgblack from "../../assets/mgblack.svg"
+    import rocket from "../assets/rocket.svg";
+    import mgwhite from "../assets/mgwhite.svg"
+    import mgblack from "../assets/mgblack.svg"
     
-    let isFocused = false;
-	const onFocus =()=>isFocused=true;
-	const onBlur =()=>isFocused=false;
-
-
+    let isFocused: boolean = false;
+	const onFocus = (): boolean => isFocused = true;
+	const onBlur = (): boolean =>  isFocused = false;
 </script>
 
 <div>
     <header>
         <div>
             <img src={rocket} alt="Imagem de um foguete decolando">
-            <h1>Taskfy</h1>
+            <h1>Task<span>fy</span></h1>
         </div>
         <div class={isFocused ? 'input-focus-div' : 'input-no-focus-div'}>
             <button>
@@ -79,6 +77,10 @@
                     color: #4EA8DE;
                     font-size: $size-one;
                     background-color: $color-one;
+                }
+
+                span{
+                    color: #5E60CE;
                 }
             }
 
