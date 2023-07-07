@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Header from "./components/Header/Header.svelte";
+    import Dashboard from "./pages/Dashboard.svelte";
 </script>
 
-<Header/>
+<Dashboard/>
 
 <style lang="scss">
     :global(*) {
@@ -17,6 +17,9 @@
 	}
     :global(button) {
 	    cursor: pointer;
+	}
+    :global(body) {
+	    background-color: #1A1A1A;
 	}
 </style>
 
