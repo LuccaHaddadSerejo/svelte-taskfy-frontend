@@ -2,8 +2,9 @@
     import rocket from "../assets/rocket.svg";
     import mgwhite from "../assets/mgwhite.svg"
     import mgblack from "../assets/mgblack.svg"
-    
+    import Button from "./Button.svelte";
     let isFocused: boolean = false;
+    $: mgImage = isFocused ? mgblack : mgwhite;
 	const onFocus = (): boolean => isFocused = true;
 	const onBlur = (): boolean =>  isFocused = false;
 </script>
@@ -15,9 +16,7 @@
             <h1>Task<span>fy</span></h1>
         </div>
         <div class={isFocused ? 'input-focus-div' : 'input-no-focus-div'}>
-            <button>
-                <img src={isFocused ? mgblack : mgwhite} alt="Imagem de uma lupa"/>
-            </button>
+            <Button buttonheader img imgheader src={mgImage} alt={"Imagem de uma lupa"}/>
             <input
                 placeholder="Pesquisar"
                 type="text"
@@ -35,6 +34,9 @@
     $color-three: #262626;
     $size-one: clamp(2rem, 6vw, 3rem);
     $height-one: 45px;
+    img{
+        height: 40px;
+    }
 
     div {
         background-color: $color-one;
@@ -90,22 +92,6 @@
                 display: flex;
                 gap: 1px;
                                 
-                button {
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 0.5rem;
-                    background-color: transparent;
-                    height: $height-one;
-                    position: relative;
-                    z-index: 1;
-
-                    img {
-                        background-color: transparent;
-                        height: clamp(1rem, 6vw, 1.8rem);
-                    }
-                }
-
                 input {
                     width: min(100%, 850px);
                     height: $height-one;

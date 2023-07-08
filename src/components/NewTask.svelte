@@ -1,6 +1,7 @@
 <script lang="ts">
     import plus from "../assets/plus.svg"
     import { type Task } from "../interfaces/tasks.";
+  import Button from "./Button.svelte";
 
     let value:string =  "";
     let taskObj = {} as Task;
@@ -40,16 +41,14 @@
 
 <div>
     <input bind:value="{value}" placeholder="Adicione uma nova tarefa" type="text">
-    <button on:click={handleClick}>Criar<img src={plus} alt="Imagem de um símbolo de mais"></button>
+    <Button buttonnewtask img src={plus} alt={"Imagem de um símbolo de mais"} text content={"Criar"} onClick={handleClick}/>
 </div>
 
 <style lang="scss">
     $color-one: #dcdcdc;
     $radius-one: 8px;
     $rem-half: 0.5rem;
-    h1{
-        color: white;
-    }
+
     div{
         display: flex;
         justify-content: center;
@@ -74,22 +73,6 @@
         &:focus{
             outline: none;
             background-color: $color-one;
-        }
-    }
-
-    button{
-        display: inline-flex;
-        gap: $rem-half;
-        align-items: center;
-        color: $color-one;
-        background-color: #1E6F9F;
-        border-radius: $radius-one;
-        padding: 1rem;
-        height: 48px; 
-        
-
-        &:hover{
-            filter:brightness(1.2)
         }
     }
 </style>
