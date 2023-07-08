@@ -3,6 +3,7 @@
     import mgwhite from "../assets/mgwhite.svg"
     import mgblack from "../assets/mgblack.svg"
     import Button from "./Button.svelte";
+  import Input from "./Input.svelte";
     let isFocused: boolean = false;
     $: mgImage = isFocused ? mgblack : mgwhite;
 	const onFocus = (): boolean => isFocused = true;
@@ -17,12 +18,7 @@
         </div>
         <div class={isFocused ? 'input-focus-div' : 'input-no-focus-div'}>
             <Button buttonheader img imgheader src={mgImage} alt={"Imagem de uma lupa"}/>
-            <input
-                placeholder="Pesquisar"
-                type="text"
-                on:focus={onFocus}
-                on:blur={onBlur}
-            >
+            <Input inputheader placeholder={"Pesquisar"} on:focus={onFocus} on:blur={onBlur}/>
         </div>
     </header>
 </div>
@@ -34,9 +30,6 @@
     $color-three: #262626;
     $size-one: clamp(2rem, 6vw, 3rem);
     $height-one: 45px;
-    img{
-        height: 40px;
-    }
 
     div {
         background-color: $color-one;
@@ -91,24 +84,6 @@
                 border-radius: 8px;
                 display: flex;
                 gap: 1px;
-                                
-                input {
-                    width: min(100%, 850px);
-                    height: $height-one;
-                    border: transparent;
-                    background-color: $color-three;
-                    padding: 1rem;
-
-                    &:focus {
-                        outline: none;
-                        background-color: $color-two;
-                    }
-
-                    &::placeholder {
-                        color: $color-two;
-                        font-size: 0.875rem;
-                    }
-                }
             }
         }
     }
