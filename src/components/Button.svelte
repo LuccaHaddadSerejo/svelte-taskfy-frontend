@@ -7,12 +7,9 @@
     export let buttonnewtask: boolean = false;
     export let imgheader: boolean = false;
     export let content: string = undefined;
-    export let funcValue: string  = undefined;
-    export let onClick: (value: string) => void = () => {}
 </script>
 
-<button class="button" class:buttonheader class:buttonnewtask
-    on:click={() => onClick(funcValue)}>
+<button class="button" class:buttonheader class:buttonnewtask on:click>
     {#if img}
         <img class:imgheader src={src} alt={alt}>
     {/if}    

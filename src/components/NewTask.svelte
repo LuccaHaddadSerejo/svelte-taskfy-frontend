@@ -1,7 +1,8 @@
 <script lang="ts">
+    import Button from "./Button.svelte";
     import plus from "../assets/plus.svg"
     import { type Task } from "../interfaces/tasks.";
-  import Button from "./Button.svelte";
+  import Input from "./Input.svelte";
 
     let value:string =  "";
     let taskObj = {} as Task;
@@ -26,7 +27,6 @@
     const formatObj = (): void => {
         const newObj:Task = {
             title: value,
-            content: null
         }
 
         taskObj = newObj
@@ -40,8 +40,8 @@
 </script>
 
 <div>
-    <input bind:value="{value}" placeholder="Adicione uma nova tarefa" type="text">
-    <Button buttonnewtask img src={plus} alt={"Imagem de um símbolo de mais"} text content={"Criar"} onClick={handleClick}/>
+    <Input inputnewtask bind:value={value} placeholder="Adicione uma nova tarefa"/>
+    <Button buttonnewtask img src={plus} alt={"Imagem de um símbolo de mais"} text content={"Criar"} on:click={handleClick}/>
 </div>
 
 <style lang="scss">
@@ -56,24 +56,6 @@
         width: min(90%, 1400px);
         margin: 0 auto;
         margin-top: 20px;
-    }
-
-    input{
-        width: min(100%, 600px);
-        border-radius: $radius-one;
-        background-color: #262626;
-        border: 1px solid #0D0D0D;
-        padding: 1rem;
-
-        &::placeholder{
-            color: $color-one;
-            font-size: 0.875rem;
-        }
-
-        &:focus{
-            outline: none;
-            background-color: $color-one;
-        }
     }
 </style>
 
