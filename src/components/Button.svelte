@@ -6,10 +6,16 @@
     export let buttonheader: boolean = false;
     export let buttonnewtask: boolean = false;
     export let imgheader: boolean = false;
+    export let disabled: boolean = false;
     export let content: string = undefined;
 </script>
 
-<button class="button" class:buttonheader class:buttonnewtask on:click>
+<button disabled={disabled} 
+        class="button" 
+        class:buttonheader 
+        class:buttonnewtask
+        class:disabled 
+        on:click>
     {#if img}
         <img class:imgheader src={src} alt={alt}>
     {/if}    
@@ -24,6 +30,11 @@
         display: inline-flex;
         align-items: center;
         
+    }
+
+    .disabled{   
+        opacity: 0.6;
+        cursor: not-allowed;
     }
 
     .buttonheader{      

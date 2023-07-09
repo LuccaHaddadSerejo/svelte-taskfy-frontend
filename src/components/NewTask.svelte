@@ -1,13 +1,13 @@
 <script lang="ts">
     import Button from "./Button.svelte";
     import plus from "../assets/plus.svg"
-    import { type Task } from "../interfaces/tasks.";
-  import Input from "./Input.svelte";
+    import { type tCreateTask } from "../interfaces/tasks.";
+    import Input from "./Input.svelte";
 
     let value:string =  "";
-    let taskObj = {} as Task;
+    let taskObj = {} as tCreateTask;
 
-    const createTask = async (data: Task): Promise<void> => {
+    const createTask = async (data: tCreateTask): Promise<void> => {
         try {
             const res: Response = await fetch("http://localhost:3000/tasks", {
                 method:"POST",
@@ -25,7 +25,7 @@
     }
 
     const formatObj = (): void => {
-        const newObj:Task = {
+        const newObj:tCreateTask = {
             title: value,
         }
 
@@ -41,7 +41,7 @@
 
 <div>
     <Input inputnewtask bind:value={value} placeholder="Adicione uma nova tarefa"/>
-    <Button buttonnewtask img src={plus} alt={"Imagem de um símbolo de mais"} text content={"Criar"} on:click={handleClick}/>
+    <Button buttonnewtask disabled={value.length > 0 ? false : true} img src={plus} alt={"Imagem de um símbolo de mais"} text content={"Criar"} on:click={handleClick}/>
 </div>
 
 <style lang="scss">
@@ -53,7 +53,7 @@
         display: flex;
         justify-content: center;
         gap: $rem-half;
-        width: min(90%, 1400px);
+        width: 100%;
         margin: 0 auto;
         margin-top: 20px;
     }
