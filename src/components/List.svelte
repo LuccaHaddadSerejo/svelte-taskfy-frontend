@@ -1,23 +1,13 @@
 <script lang="ts">
     import  clipboard  from "../assets/clipboard.svg"
+    import TaskCount from "./TaskCount.svelte";
     let mock = [] as any;
 </script>
 
 <section>
     <div>
-        <div>
-            <p>Tarefas criadas</p>
-            <div>
-                <span>0</span>
-            </div>
-            
-        </div>
-        <div>
-            <p>Tarefas concluídas</p>
-            <div>
-                <span>0</span>
-            </div>
-        </div>
+        <TaskCount text={"Tarefas criadas"} blue createdTasksValue={mock.length}/>
+        <TaskCount text={"Tarefas concluídas"} done purple doneTasksValue={mock.length}/>
     </div>
     <div>
         {#if mock.length > 0}
@@ -54,65 +44,11 @@
         margin-top: 2rem;
         border: 2px solid white;
 
-        :nth-child(1){
+        div{
             display: flex;
             justify-content: space-between;
-            align-items: center;
-
-            :nth-child(1){
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                
-                p{
-                    font-size: clamp(0.5rem, 4vw, 1rem);
-                    font-weight: 700;
-                    color: #4EA8DE;
-                }
-
-                div{
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background-color: #333;
-                    border-radius: 100%;
-                    width: 20px;
-                    height: 20px;
-                    span{
-                        font-weight: 400;
-                        font-size: clamp(0.5rem, 4.5vw, 1rem);
-                        color: #cdcdcd;
-                    }
-                }    
-            }
-
-            :nth-child(2){
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                
-                p{
-                    font-size: clamp(0.5rem, 4vw, 1rem);
-                    font-weight: 700;
-                    color: #5E60CE;
-                }
-
-                div{
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background-color: #333;
-                    border-radius: 100%;
-                    width: 20px;
-                    height: 20px;
-                    span{
-                        font-weight: 400;
-                        font-size: clamp(0.5rem, 4.5vw, 1rem);
-                        color: #cdcdcd;
-                    }
-                }    
-            }
-        }     
+            align-items: center; 
+        }
     }
 
     .empty-list{
