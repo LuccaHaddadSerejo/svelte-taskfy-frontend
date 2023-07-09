@@ -1,42 +1,30 @@
 <script lang="ts">
     import Button from "./Button.svelte";
     import plus from "../assets/plus.svg"
-    import { type tCreateTask } from "../interfaces/tasks.";
     import Input from "./Input.svelte";
-
+    import { createTask} from "../api";
+    import { handleTasksFetched} from '../store';
+    import { type tCreateTask } from "../interfaces/tasks.";
+    
     let value:string =  "";
     let taskObj = {} as tCreateTask;
 
-    const createTask = async (data: tCreateTask): Promise<void> => {
-        try {
-            const res: Response = await fetch("http://localhost:3000/tasks", {
-                method:"POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data)
-            })
-            if(!res.ok){
-                await res.json()
-            }    
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
     const formatObj = (): void => {
-        const newObj:tCreateTask = {
-            title: value,
-        }
+        const newObj: tCreateTask = {
+        title: value,
+    };
 
-        taskObj = newObj
-    }
+    taskObj = newObj;
+    };
 
-    const handleClick = (): void => {
-        formatObj()
-        createTask(taskObj)
-        value = ""
-    }
+    const handleClick = async (): Promise<void> => {
+    formatObj();
+    createTask(taskObj);
+    handleTasksFetched();
+    value = "";
+    };
+
+    
 </script>
 
 <div>
