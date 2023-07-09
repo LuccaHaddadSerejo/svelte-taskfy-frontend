@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
     export let text: string;
     export let done: boolean = false;
     export let purple: boolean = false;
     export let blue: boolean = false;
     export let createdTasksValue: number = undefined;
     export let doneTasksValue: number = undefined;
-
 </script>
 
 <div>

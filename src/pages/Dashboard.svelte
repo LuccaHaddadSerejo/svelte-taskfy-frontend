@@ -4,7 +4,36 @@
     import EmptyList from "../components/EmptyList.svelte";
     import TaskCount from "../components/TaskCount.svelte";
     import List from "../components/List.svelte";
-    let mock = [1] as any;
+    import { getTasks } from "../api";
+    import {refreshTasks} from '../store';
+    import {type iTask} from "../interfaces/tasks."
+    import { onMount } from "svelte";
+    
+    let tasks: iTask[] = [];
+    let doneTasks: iTask[] = [];
+
+    const fetchTasks = async () => {
+        tasks = await getTasks();
+    };
+
+    const fetchDoneTasks = async () => {
+        doneTasks = tasks.filter((task: iTask) => task.done)
+    };
+
+    const mountFunctions = () => {
+        fetchTasks()
+        fetchDoneTasks()
+    }
+    
+
+    $: {
+        if ($refreshTasks) {
+            fetchTasks();
+            $refreshTasks = false;
+        }
+    }
+
+    onMount(mountFunctions)
 </script>
 
 <Header/>
@@ -14,12 +43,12 @@
     </section>
     <section>
         <div>
-            <TaskCount text={"Tarefas criadas"} blue createdTasksValue={mock.length}/>
-            <TaskCount text={"Tarefas concluídas"} done purple doneTasksValue={mock.length}/>
+            <TaskCount text={"Tarefas criadas"} blue createdTasksValue={tasks.length}/>
+            <TaskCount text={"Tarefas concluídas"} done purple doneTasksValue={doneTasks.length}/>
         </div>
     <div>
-        {#if mock.length > 0}
-            <List/>
+        {#if tasks.length > 0}
+            <List tasks={tasks}/>
         {:else}
             <EmptyList/>
         {/if} 
