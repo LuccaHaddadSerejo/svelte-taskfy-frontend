@@ -1,5 +1,5 @@
 <script lang="ts">
-    import  clipboard  from "../assets/clipboard.svg"
+    import EmptyList from "./EmptyList.svelte";
     import TaskCount from "./TaskCount.svelte";
     let mock = [] as any;
 </script>
@@ -17,22 +17,18 @@
                     <h3>Título Task</h3>
                     <button>Editar</button>
                     <button>Excluir</button>
-                    <!-- <ul>
+                    <ul>
                         <li>
                             <input type="checkbox">
                             <h3>Título Subtask</h3>
                             <button>Editar</button>
                             <button>Excluir</button>
                         </li>
-                    </ul> -->
+                    </ul>
                 </li>
             </ul>
         {:else}
-            <div class="empty-list">
-                <img src="{clipboard}" alt="Imagem de uma prancheta">
-                <p>Você ainda não tem tarefas cadastradas</p>
-                <p> Crie tarefas e organize seus itens a fazer</p>
-            </div>
+            <EmptyList/>
         {/if} 
     </div>
 </section>
@@ -41,19 +37,12 @@
     section{
         width: min(100%, 900px);
         margin: 0 auto;
-        margin-top: 2rem;
-        border: 2px solid white;
+        margin-top: 3rem;
 
-        div{
+        :nth-child(1){
             display: flex;
             justify-content: space-between;
             align-items: center; 
         }
-    }
-
-    .empty-list{
-        display: flex;
-        flex-direction: column;
-        gap:10px
     }
 </style>

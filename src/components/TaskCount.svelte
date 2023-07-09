@@ -44,7 +44,7 @@
 
                 span{
                     font-weight: 400;
-                    font-size: clamp(0.5rem, 4.5vw, 1rem);
+                    font-size: clamp(0.5rem, 4.5vw, 0.8rem);
                     color: #cdcdcd;
                 }
             }    
