@@ -3,8 +3,10 @@
     import mgwhite from "../assets/mgwhite.svg"
     import mgblack from "../assets/mgblack.svg"
     import Button from "./Button.svelte";
-  import Input from "./Input.svelte";
+    import Input from "./Input.svelte"; 
+
     let isFocused: boolean = false;
+    
     $: mgImage = isFocused ? mgblack : mgwhite;
 	const onFocus = (): boolean => isFocused = true;
 	const onBlur = (): boolean =>  isFocused = false;
