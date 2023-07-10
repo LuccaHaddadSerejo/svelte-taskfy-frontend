@@ -1,7 +1,18 @@
 <script lang="ts">
+    import { deleteSubtask } from "../api";
+    import { handleTasksFetched } from "../store";
+  import Button from "./Button.svelte";
+
     export let subtitle:string;
     export let subkey:number;
+
+    const handleDeleteSubtaskClick = () => {
+        deleteSubtask(subkey)
+        handleTasksFetched();
+    }
+
 </script>
+
 
 
 <li>
@@ -10,8 +21,8 @@
         <h3>{subtitle}</h3>
     </div>
     <div class="contentdivtwo"> 
-        <button>Editar</button>
-        <button>Excluir</button>
+        <Button text buttonssubtask content={"Editar"}/>
+        <Button on:click={() => handleDeleteSubtaskClick()} text buttonssubtask content={"Excluir"}/>
     </div>
    
 </li>
@@ -31,16 +42,7 @@
         font-weight: 600;
     }
 
-    button{
-        background-color: transparent;
-        text-decoration: underline;
-        color: #4EA8DE;
 
-
-        &:hover{
-            filter: brightness(1.5);
-        }
-    }
 
     .contentdivone{
         display: flex;

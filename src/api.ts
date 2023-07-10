@@ -115,3 +115,14 @@ export const updateSubtask = async (
     console.error(error);
   }
 };
+
+export const deleteSubtask = async (id: number): Promise<void> => {
+  try {
+    const formatData = String(id);
+    await fetch(`http://localhost:3000/subtasks/${formatData}`, {
+      method: "DELETE",
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};

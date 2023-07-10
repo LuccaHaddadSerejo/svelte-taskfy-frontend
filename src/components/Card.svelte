@@ -9,7 +9,7 @@
     import Input from "./Input.svelte"
     import { createSubtask, deleteTask } from "../api";
     import { handleTasksFetched } from "../store";
-  import type { iSubtask, tCreateSubtask } from "../interfaces/tasks.";
+    import type { iSubtask, tCreateSubtask } from "../interfaces/tasks.";
 
     let newSubtask: boolean = false;
     let direction: boolean = false;
@@ -21,7 +21,7 @@
     export let title:string;
     export let key:number;
     export let subtasks: iSubtask[];
-    let value: string;
+    let value: string = "";
     let subtaskObj = {} as tCreateSubtask;
 
     const formatObj = (): void => {
@@ -74,7 +74,7 @@
             {:else}
             <div class="newsubtaskdiv">
                 <Input bind:value={value} inputnewtask placeholder={"Adicione uma subtask"}/>
-                <Button on:click={() => handleCreateSubtaskClick()} text buttonsnewsubstaskdiv content={"Criar"}/>
+                <Button on:click={() => handleCreateSubtaskClick()} text disabled={value.length > 0 ? false : true} buttonsnewsubstaskdiv content={"Criar"}/>
                 <Button on:click={() => toogleAddSubtask()} text buttonsnewsubstaskdiv content={"Voltar"}/>
             </div>
             {/if}

@@ -7,6 +7,7 @@
     export let buttonnewtask: boolean = false;
     export let buttonaddnewsubtask: boolean = false;
     export let buttonsnewsubstaskdiv: boolean = false;
+    export let buttonssubtask: boolean = false;
     export let imgheader: boolean = false;
     export let trash: boolean = false;
     export let editAndArrowButton: boolean = false;
@@ -20,6 +21,7 @@
         class:buttonnewtask
         class:buttonaddnewsubtask
         class:buttonsnewsubstaskdiv
+        class:buttonssubtask
         class:disabled 
         on:click>
         {#if text}
@@ -41,7 +43,6 @@
         } 
     }
 
-    
     .disabled{   
         opacity: 0.6;
         cursor: not-allowed;
@@ -102,4 +103,10 @@
             min-width: 53px;
             justify-content: center;
     }
+
+    .buttonssubtask{
+        text-decoration: underline;
+        color: #4EA8DE;
+    }
+
 </style>
