@@ -4,12 +4,23 @@
     import trash  from "../assets/trash.svg" 
     import editTask  from "../assets/edit.svg" 
     import SubtaskCard from "./SubtaskCard.svelte";
+    import Button from "./Button.svelte";
+    import { deleteTask } from "../api";
+    import { handleTasksFetched } from "../store";
+
     let direction: boolean = false;
     $: arrow = direction ? arrowup : arrowdown 
 
     const toogleDirection = () => direction = !direction
 
     export let title:string;
+    export let key:number;
+
+
+    const handleDeleteClick = async () => {
+        deleteTask(key)
+        handleTasksFetched();
+    }
 </script>
 
 <li> 
@@ -20,12 +31,10 @@
         </div>
         <div class="taskbuttons">
             <div class="taskbuttonsone">
-                <button><img src={editTask} alt="Imagem de um lixo"></button>
-                <button><img class="trash" src={trash} alt="Imagem de uma caneta e uma prancheta"></button>       
+                <Button img src={editTask} editAndArrowButton alt={"Imagem de uma caneta e uma prancheta"}/>
+                <Button on:click={handleDeleteClick} img src={trash} trash alt={"Imagem de um lixo"}/>       
             </div>
-            <button on:click={toogleDirection}>
-                <img src={arrow} alt="Imagem de uma seta">
-            </button>
+            <Button on:click={toogleDirection} img src={arrow} editAndArrowButton alt={"Imagem de uma seta"}/>
     </div>
     </div>
     {#if arrow === arrowup}
@@ -38,26 +47,13 @@
 </li>
 <style lang="scss">
     li{
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            justify-content: space-between;
-            background-color: #262626;
-            border-radius: 8px;
-            padding: 2rem 1rem 2rem 1rem;
-        }
-
-        img{
-            width: 23px;
-            background-color: transparent;
-            filter: brightness(1.2);
-        }
-
-        button{
-            background-color: transparent;
-            :hover{
-                filter: brightness(1.5);
-            }
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        justify-content: space-between;
+        background-color: #262626;
+        border-radius: 8px;
+        padding: 2rem 1rem 2rem 1rem;
         }
 
         h2{
@@ -90,13 +86,7 @@
             @media(min-width: 800px){
                 flex-direction: row;
             }
-        }
-
-        .trash{
-            width: 30px;
-            position: relative;
-            top: 2px;
-        }
+        }    
 </style>
 
 

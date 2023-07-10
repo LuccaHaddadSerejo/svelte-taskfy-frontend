@@ -18,3 +18,5 @@ export interface iTask {
 
 export type tCreateSubtask = Pick<iSubtask, "title">;
 export type tCreateTask = Pick<iTask, "title">;
+export type tUpdateTask = Pick<iTask, "title" | "done">;
+export type tPartialTask = Partial<tUpdateTask>;

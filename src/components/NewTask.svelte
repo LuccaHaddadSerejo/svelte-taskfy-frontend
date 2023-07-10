@@ -11,17 +11,17 @@
 
     const formatObj = (): void => {
         const newObj: tCreateTask = {
-        title: value,
+            title: value,
+        };
+
+        taskObj = newObj;
     };
 
-    taskObj = newObj;
-    };
-
-    const handleClick = async (): Promise<void> => {
-    formatObj();
-    createTask(taskObj);
-    handleTasksFetched();
-    value = "";
+    const handleClick = (): void => {
+        formatObj();
+        createTask(taskObj);
+        handleTasksFetched();
+        value = "";
     };
 
     

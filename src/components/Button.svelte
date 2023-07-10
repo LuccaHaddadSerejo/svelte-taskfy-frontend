@@ -6,6 +6,8 @@
     export let buttonheader: boolean = false;
     export let buttonnewtask: boolean = false;
     export let imgheader: boolean = false;
+    export let trash: boolean = false;
+    export let editAndArrowButton: boolean = false;
     export let disabled: boolean = false;
     export let content: string = undefined;
 </script>
@@ -17,7 +19,7 @@
         class:disabled 
         on:click>
     {#if img}
-        <img class:imgheader src={src} alt={alt}>
+        <img class:imgheader class:trash class:editAndArrowButton src={src} alt={alt}>
     {/if}    
     {#if text}
         {content}
@@ -29,7 +31,10 @@
     .button{
         display: inline-flex;
         align-items: center;
-        
+        background-color: transparent;
+        :hover{
+            filter: brightness(1.5);
+        } 
     }
 
     .disabled{   
@@ -58,10 +63,20 @@
         border-radius: 8px;
         padding: 1rem;
         height: 48px; 
-        
-
+    
         &:hover{
             filter:brightness(1.2)
         }
+    }
+
+    .trash{
+        width: 30px;
+        position: relative;
+        top: 2px;
+    }
+
+    .editAndArrowButton{
+        width: 23px;
+        filter: brightness(1.2);
     }
 </style>

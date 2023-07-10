@@ -2,12 +2,11 @@
     import {type iTask} from "../interfaces/tasks."
     import Card from "./Card.svelte";
     export let tasks: iTask[] = []
-
 </script>
 
 <ul>
-    {#each tasks as task}
-        <Card title={task.title}/>
+    {#each tasks as task (task.id)}
+        <Card title={task.title} key={task.id}/>
     {/each}  
 </ul>
 
@@ -17,5 +16,7 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        max-height: 800px;
+        overflow-y: auto;
     }   
 </style>

@@ -5,26 +5,16 @@
     import TaskCount from "../components/TaskCount.svelte";
     import List from "../components/List.svelte";
     import { getTasks } from "../api";
-    import {refreshTasks} from '../store';
+    import { refreshTasks } from '../store';
+    import { afterUpdate, onMount} from "svelte";
     import {type iTask} from "../interfaces/tasks."
-    import { onMount } from "svelte";
     
     let tasks: iTask[] = [];
-    let doneTasks: iTask[] = [];
-
+    $: doneTasks = tasks.filter((task: iTask) => task.done)
+    
     const fetchTasks = async () => {
         tasks = await getTasks();
     };
-
-    const fetchDoneTasks = async () => {
-        doneTasks = tasks.filter((task: iTask) => task.done)
-    };
-
-    const mountFunctions = () => {
-        fetchTasks()
-        fetchDoneTasks()
-    }
-    
 
     $: {
         if ($refreshTasks) {
@@ -33,7 +23,8 @@
         }
     }
 
-    onMount(mountFunctions)
+    onMount(fetchTasks)
+    afterUpdate(fetchTasks)
 </script>
 
 <Header/>

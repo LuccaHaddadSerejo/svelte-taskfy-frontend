@@ -1,16 +1,8 @@
-import { type tCreateTask } from "./interfaces/tasks.";
-
-export const getTasks = async (): Promise<any> => {
-  try {
-    const res = await fetch("http://localhost:3000/tasks");
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
+import {
+  type iTask,
+  type tCreateTask,
+  type tPartialTask,
+} from "./interfaces/tasks.";
 
 export const createTask = async (data: tCreateTask): Promise<void> => {
   try {
@@ -23,6 +15,57 @@ export const createTask = async (data: tCreateTask): Promise<void> => {
     });
     if (!res.ok) {
       await res.json();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getTasks = async (): Promise<iTask[]> => {
+  try {
+    const res = await fetch("http://localhost:3000/tasks");
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateTask = async (
+  data: tPartialTask,
+  id: number
+): Promise<void> => {
+  try {
+    const res: Response = await fetch(
+      `http://localhost:3000/tasks/${String(id)}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!res.ok) {
+      await res.json();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteTask = async (id: number): Promise<void> => {
+  try {
+    console.log("Oi");
+    const res = await fetch(`http://localhost:3000/tasks/${String(id)}`, {
+      method: "DELETE",
+    });
+    if (res.ok) {
+      await res.json();
+    } else {
+      alert(res.status);
     }
   } catch (error) {
     console.error(error);
