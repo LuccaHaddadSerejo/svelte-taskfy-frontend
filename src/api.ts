@@ -58,15 +58,10 @@ export const updateTask = async (
 
 export const deleteTask = async (id: number): Promise<void> => {
   try {
-    console.log("Oi");
-    const res = await fetch(`http://localhost:3000/tasks/${String(id)}`, {
+    const formatData = String(id);
+    await fetch(`http://localhost:3000/tasks/${formatData}`, {
       method: "DELETE",
     });
-    if (res.ok) {
-      await res.json();
-    } else {
-      alert(res.status);
-    }
   } catch (error) {
     console.error(error);
   }

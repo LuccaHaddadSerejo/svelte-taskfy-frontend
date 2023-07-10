@@ -31,7 +31,7 @@
             font-size: 0.875rem;
         }
     }
-
+    
     .inputheader{
         width: min(100%, 850px);
         height: 45px;

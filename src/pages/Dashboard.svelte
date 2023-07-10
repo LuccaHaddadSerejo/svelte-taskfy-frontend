@@ -8,7 +8,7 @@
     import { refreshTasks } from '../store';
     import { afterUpdate, onMount} from "svelte";
     import {type iTask} from "../interfaces/tasks."
-    
+
     let tasks: iTask[] = [];
     $: doneTasks = tasks.filter((task: iTask) => task.done)
     
