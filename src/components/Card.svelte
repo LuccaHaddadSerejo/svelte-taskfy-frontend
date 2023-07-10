@@ -7,8 +7,9 @@
     import SubtaskCard from "./SubtaskCard.svelte";
     import Button from "./Button.svelte";
     import Input from "./Input.svelte"
-    import { deleteTask } from "../api";
+    import { createSubtask, deleteTask } from "../api";
     import { handleTasksFetched } from "../store";
+  import type { iSubtask, tCreateSubtask } from "../interfaces/tasks.";
 
     let newSubtask: boolean = false;
     let direction: boolean = false;
@@ -19,11 +20,28 @@
 
     export let title:string;
     export let key:number;
+    export let subtasks: iSubtask[];
+    let value: string;
+    let subtaskObj = {} as tCreateSubtask;
 
+    const formatObj = (): void => {
+        const newObj: tCreateSubtask = {
+            title: value,
+        };
 
-    const handleDeleteClick = async () => {
+        subtaskObj = newObj;
+    };
+
+    const handleDeleteClick = () => {
         deleteTask(key)
         handleTasksFetched();
+    }
+
+    const handleCreateSubtaskClick = async () => {
+        formatObj()
+        createSubtask(subtaskObj, key)
+        handleTasksFetched();
+        toogleAddSubtask()
     }
 </script>
 
@@ -44,9 +62,9 @@
     </div>
     {#if arrow === arrowup}
         <ul>
-            <SubtaskCard/>
-            <SubtaskCard/>
-            <SubtaskCard/>
+            {#each subtasks as subtask (subtask.id)}
+                <SubtaskCard subtitle={subtask.title} subkey={subtask.id}/>
+            {/each}
         </ul>
         <div>
             {#if !newSubtask}
@@ -55,8 +73,8 @@
             </div>
             {:else}
             <div class="newsubtaskdiv">
-                <Input inputnewtask placeholder={"Adicione uma subtask"}/>
-                <Button on:click={() => toogleAddSubtask()} text buttonsnewsubstaskdiv content={"Criar"}/>
+                <Input bind:value={value} inputnewtask placeholder={"Adicione uma subtask"}/>
+                <Button on:click={() => handleCreateSubtaskClick()} text buttonsnewsubstaskdiv content={"Criar"}/>
                 <Button on:click={() => toogleAddSubtask()} text buttonsnewsubstaskdiv content={"Voltar"}/>
             </div>
             {/if}

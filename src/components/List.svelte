@@ -6,7 +6,7 @@
 
 <ul>
     {#each tasks as task (task.id)}
-        <Card title={task.title} key={task.id}/>
+        <Card title={task.title} key={task.id} subtasks={task.subtasks}/>
     {/each}  
 </ul>
 

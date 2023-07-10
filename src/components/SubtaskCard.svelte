@@ -1,13 +1,13 @@
 <script lang="ts">
-    import trash  from "../assets/trash.svg" 
-    import editTask  from "../assets/edit.svg" 
+    export let subtitle:string;
+    export let subkey:number;
 </script>
 
 
 <li>
     <div class="contentdivone">
         <input type="checkbox">
-        <h3>Título Subtask</h3>
+        <h3>{subtitle}</h3>
     </div>
     <div class="contentdivtwo"> 
         <button>Editar</button>
