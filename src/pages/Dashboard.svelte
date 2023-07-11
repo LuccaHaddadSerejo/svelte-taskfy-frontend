@@ -4,30 +4,29 @@
   import EmptyList from "../components/EmptyList.svelte";
   import TaskCount from "../components/TaskCount.svelte";
   import List from "../components/List.svelte";
-  import { getTasks } from "../api";
-  import { refreshTasks, done, pending } from "../store";
-  import { afterUpdate, onMount } from "svelte";
-  import { type iTask } from "../interfaces/tasks.";
   import Filter from "../components/Filter.svelte";
+  import { storeTasks, fetchTasks, done, pending } from "../store";
+  import { onMount } from "svelte";
+  import type { iTask } from "../interfaces/tasks.";
 
-  let tasks: iTask[] = [];
-
-  $: doneTasks = tasks.filter((task: iTask) => task.done);
-  $: pendingTasks = tasks.filter((task: iTask) => !task.done);
-
-  const fetchTasks = async () => {
-    tasks = await getTasks();
-  };
+  let doneTasks: iTask[] = [];
+  let pendingTasks: iTask[] = [];
 
   $: {
-    if ($refreshTasks) {
-      fetchTasks();
-      $refreshTasks = false;
+    if ($storeTasks) {
+      if ($done) {
+        doneTasks = $storeTasks.filter((task: iTask) => task.done);
+      }
+
+      if ($pending) {
+        pendingTasks = $storeTasks.filter((task: iTask) => !task.done);
+      }
     }
   }
 
-  onMount(fetchTasks);
-  afterUpdate(fetchTasks);
+  onMount(async () => {
+    await fetchTasks();
+  });
 </script>
 
 <Header />
@@ -43,7 +42,7 @@
       <TaskCount
         text={"Tarefas criadas"}
         blue
-        createdTasksValue={tasks.length}
+        createdTasksValue={$storeTasks.length}
       />
       <TaskCount
         text={"Tarefas concluídas"}
@@ -53,26 +52,14 @@
       />
     </div>
     <div>
-      {#if $done}
-        {#if doneTasks.length > 0}
-          <List tasks={doneTasks} />
-        {:else}
-          <EmptyList />
-        {/if}
-      {/if}
-      {#if $pending}
-        {#if pendingTasks.length > 0}
-          <List tasks={pendingTasks} />
-        {:else}
-          <EmptyList />
-        {/if}
-      {/if}
-      {#if $done === false && $pending === false}
-        {#if tasks.length > 0}
-          <List {tasks} />
-        {:else}
-          <EmptyList />
-        {/if}
+      {#if $done && doneTasks.length > 0}
+        <List items={doneTasks} />
+      {:else if $pending && pendingTasks.length > 0}
+        <List items={pendingTasks} />
+      {:else if !$done && !$pending && $storeTasks.length > 0}
+        <List items={$storeTasks} />
+      {:else}
+        <EmptyList />
       {/if}
     </div>
   </section>

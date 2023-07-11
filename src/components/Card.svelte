@@ -8,7 +8,6 @@
   import Button from "./Button.svelte";
   import Input from "./Input.svelte";
   import { createSubtask, deleteTask, updateTask } from "../api";
-  import { handleTasksFetched } from "../store";
   import type {
     iSubtask,
     tCreateSubtask,
@@ -59,15 +58,14 @@
     updateTask(updatedObj, key);
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async (): Promise<void> => {
     deleteTask(key);
-    handleTasksFetched();
   };
 
-  const handleCreateSubtaskClick = async () => {
+  const handleCreateSubtaskClick = async (): Promise<void> => {
     formatSubtaskObj();
     createSubtask(subtaskObj, key);
-    handleTasksFetched();
+
     resetSubtaskValue();
   };
 

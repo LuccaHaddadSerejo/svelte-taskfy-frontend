@@ -4,6 +4,19 @@ import {
   type tCreateTask,
   type tPartialTask,
 } from "./interfaces/tasks.";
+import { storeTasks } from "./store";
+
+export const getTasks = async (): Promise<iTask[]> => {
+  try {
+    const res = await fetch("http://localhost:3000/tasks");
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const createTask = async (data: tCreateTask): Promise<void> => {
   try {
@@ -14,20 +27,16 @@ export const createTask = async (data: tCreateTask): Promise<void> => {
       },
       body: JSON.stringify(data),
     });
-    if (!res.ok) {
-      await res.json();
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getTasks = async (): Promise<iTask[]> => {
-  try {
-    const res = await fetch("http://localhost:3000/tasks");
     if (res.ok) {
-      const data = await res.json();
-      return data;
+      await res.json();
+      const tasksData: iTask[] = await getTasks();
+      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
+        const doneA = Boolean(a.done);
+        const doneB = Boolean(b.done);
+
+        return doneA === doneB ? 0 : doneA ? 1 : -1;
+      });
+      storeTasks.set([...sortItems]);
     }
   } catch (error) {
     console.error(error);
@@ -51,6 +60,7 @@ export const updateTask = async (
     );
     if (res.ok) {
       const resData = await res.json();
+      const tasksData: iTask[] = await getTasks();
       if (resData.done) {
         resData.subtasks.map((elt: any) => {
           const updatedObj = {
@@ -59,6 +69,13 @@ export const updateTask = async (
           updateSubtask(updatedObj, elt.id);
         });
       }
+      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
+        const doneA = Boolean(a.done);
+        const doneB = Boolean(b.done);
+
+        return doneA === doneB ? 0 : doneA ? 1 : -1;
+      });
+      storeTasks.set([...sortItems]);
     }
   } catch (error) {
     console.error(error);
@@ -68,9 +85,19 @@ export const updateTask = async (
 export const deleteTask = async (id: number): Promise<void> => {
   try {
     const formatData = String(id);
-    await fetch(`http://localhost:3000/tasks/${formatData}`, {
+    const res = await fetch(`http://localhost:3000/tasks/${formatData}`, {
       method: "DELETE",
     });
+    if (res.ok) {
+      const tasksData: iTask[] = await getTasks();
+      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
+        const doneA = Boolean(a.done);
+        const doneB = Boolean(b.done);
+
+        return doneA === doneB ? 0 : doneA ? 1 : -1;
+      });
+      storeTasks.set([...sortItems]);
+    }
   } catch (error) {
     console.error(error);
   }
@@ -92,9 +119,16 @@ export const createSubtask = async (
         body: JSON.stringify(data),
       }
     );
-    if (!res.ok) {
+    if (res.ok) {
       await res.json();
-      console.log(res.json());
+      const tasksData: iTask[] = await getTasks();
+      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
+        const doneA = Boolean(a.done);
+        const doneB = Boolean(b.done);
+
+        return doneA === doneB ? 0 : doneA ? 1 : -1;
+      });
+      storeTasks.set([...sortItems]);
     }
   } catch (error) {
     console.error(error);
@@ -118,6 +152,14 @@ export const updateSubtask = async (
     );
     if (res.ok) {
       await res.json();
+      const tasksData: iTask[] = await getTasks();
+      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
+        const doneA = Boolean(a.done);
+        const doneB = Boolean(b.done);
+
+        return doneA === doneB ? 0 : doneA ? 1 : -1;
+      });
+      storeTasks.set([...sortItems]);
     }
   } catch (error) {
     console.error(error);
@@ -127,9 +169,19 @@ export const updateSubtask = async (
 export const deleteSubtask = async (id: number): Promise<void> => {
   try {
     const formatData = String(id);
-    await fetch(`http://localhost:3000/subtasks/${formatData}`, {
+    const res = await fetch(`http://localhost:3000/subtasks/${formatData}`, {
       method: "DELETE",
     });
+    if (res.ok) {
+      const tasksData: iTask[] = await getTasks();
+      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
+        const doneA = Boolean(a.done);
+        const doneB = Boolean(b.done);
+
+        return doneA === doneB ? 0 : doneA ? 1 : -1;
+      });
+      storeTasks.set([...sortItems]);
+    }
   } catch (error) {
     console.error(error);
   }
