@@ -8,6 +8,7 @@
   let isFocused: boolean = false;
 
   $: mgImage = isFocused ? mgblack : mgwhite;
+
   const onFocus = (): boolean => (isFocused = true);
   const onBlur = (): boolean => (isFocused = false);
 </script>

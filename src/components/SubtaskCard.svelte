@@ -29,7 +29,7 @@
       bind:checked={completedSubtask}
       on:change={handleCompleteSubtask}
     />
-    <h3>{subtitle}</h3>
+    <h3 class={completedSubtask ? "completedText" : ""}>{subtitle}</h3>
   </div>
   <div class="contentdivtwo">
     {#if !completedSubtask}
@@ -40,7 +40,6 @@
       text
       buttonssubtask
       content={"Excluir"}
-      disabled={completedSubtask}
     />
   </div>
 </li>
@@ -61,6 +60,9 @@
 
   .completedSubtask {
     opacity: 0.5;
+  }
+
+  .completedText {
     text-decoration: line-through;
   }
 

@@ -15,6 +15,7 @@
     tPartialTask,
   } from "../interfaces/tasks.";
 
+  let isEditing: boolean = false;
   let newSubtask: boolean = false;
   let direction: boolean = false;
   let value: string = "";
@@ -24,12 +25,13 @@
   export let title: string;
   export let key: number;
   export let subtasks: iSubtask[];
+  let newValue: string = title;
 
   $: arrow = direction ? arrowup : arrowdown;
 
   const toogleDirection = () => (direction = !direction);
-
   const toogleAddSubtask = () => (newSubtask = !newSubtask);
+  const toogleEditTask = () => (isEditing = !isEditing);
 
   const formatSubtaskObj = (): void => {
     const newObj: tCreateSubtask = {
@@ -37,6 +39,15 @@
     };
 
     subtaskObj = newObj;
+  };
+
+  const handleEditTask = (): void => {
+    const updatedObj: tPartialTask = {
+      title: newValue,
+    };
+
+    updateTask(updatedObj, key);
+    toogleEditTask();
   };
 
   const handleCompleteTask = (): void => {
@@ -63,40 +74,60 @@
 
 <li class:completed>
   <div class="contentdiv">
-    <div class="tasktitle">
-      <input
-        type="checkbox"
-        bind:checked={completed}
-        on:change={handleCompleteTask}
-      />
-      <h2 class:completed>{title}</h2>
-    </div>
-    <div class="taskbuttons">
-      <div class="taskbuttonsone">
+    {#if !isEditing}
+      <div class="tasktitle">
+        <input
+          type="checkbox"
+          bind:checked={completed}
+          on:change={handleCompleteTask}
+        />
+        <h2 class:completed>{title}</h2>
+      </div>
+      <div class="taskbuttons">
+        <div class="taskbuttonsone">
+          <Button
+            img
+            src={editTask}
+            editAndArrowButton
+            alt={"Imagem de uma caneta e uma prancheta"}
+            disabled={completed}
+            on:click={toogleEditTask}
+          />
+          <Button
+            on:click={handleDeleteClick}
+            img
+            src={trash}
+            trash
+            alt={"Imagem de um lixo"}
+          />
+        </div>
         <Button
+          on:click={toogleDirection}
           img
-          src={editTask}
+          src={arrow}
           editAndArrowButton
-          alt={"Imagem de uma caneta e uma prancheta"}
+          alt={"Imagem de uma seta"}
           disabled={completed}
         />
-        <Button
-          on:click={handleDeleteClick}
-          img
-          src={trash}
-          trash
-          alt={"Imagem de um lixo"}
-        />
       </div>
-      <Button
-        on:click={toogleDirection}
-        img
-        src={arrow}
-        editAndArrowButton
-        alt={"Imagem de uma seta"}
-        disabled={completed}
+    {:else}
+      <input
+        type="text"
+        bind:value={newValue}
+        class="edittitleinput"
+        placeholder="Digite um novo título"
       />
-    </div>
+      <div class="editbuttonsdiv">
+        <button
+          on:click={() => handleEditTask()}
+          class="edittaskbutton"
+          disabled={newValue.length === 0}>Editar</button
+        >
+        <button on:click={toogleEditTask} class="edittaskbutton"
+          >Cancelar</button
+        >
+      </div>
+    {/if}
   </div>
   {#if arrow === arrowup && !completed}
     <ul>
@@ -203,5 +234,44 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
+  }
+
+  .edittitleinput {
+    background-color: #dcdcdc;
+    padding: 1rem;
+    width: min(100%);
+    border-radius: 8px;
+    border: 1px solid #0d0d0d;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #dcdcdc;
+      font-size: 0.875rem;
+    }
+  }
+
+  .editbuttonsdiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .edittaskbutton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    text-decoration: underline;
+    color: #1e6f9f;
+    font-weight: 700;
+    filter: brightness(1.2);
+
+    &:hover {
+      filter: brightness(1.5);
+    }
   }
 </style>
