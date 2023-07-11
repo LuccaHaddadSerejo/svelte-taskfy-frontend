@@ -1,7 +1,6 @@
 <script lang="ts">
   import Button from "./Button.svelte";
   import { deleteSubtask, updateSubtask } from "../api";
-  import { handleTasksFetched } from "../store";
   import type { tPartialTask } from "../interfaces/tasks.";
   import Input from "./Input.svelte";
 
@@ -13,9 +12,8 @@
 
   const toogleEditSubtask = () => (isEditing = !isEditing);
 
-  const handleDeleteSubtaskClick = () => {
+  const handleDeleteSubtaskClick = async (): Promise<void> => {
     deleteSubtask(subkey);
-    handleTasksFetched();
   };
 
   const handleCompleteSubtask = (): void => {

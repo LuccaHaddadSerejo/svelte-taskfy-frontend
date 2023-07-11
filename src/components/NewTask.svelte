@@ -3,7 +3,6 @@
   import plus from "../assets/plus.svg";
   import Input from "./Input.svelte";
   import { createTask } from "../api";
-  import { handleTasksFetched } from "../store";
   import { type tCreateTask } from "../interfaces/tasks.";
 
   let value: string = "";
@@ -17,10 +16,9 @@
     taskObj = newObj;
   };
 
-  const handleClick = (): void => {
+  const handleClick = async (): Promise<void> => {
     formatObj();
     createTask(taskObj);
-    handleTasksFetched();
     value = "";
   };
 </script>

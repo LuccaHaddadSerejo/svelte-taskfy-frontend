@@ -1,13 +1,22 @@
 import { writable, type Writable } from "svelte/store";
+import { getTasks } from "./api";
+import type { iTask } from "./interfaces/tasks.";
 
-export const refreshTasks: Writable<Boolean> = writable(false);
+export const storeTasks: Writable<iTask[]> = writable([]);
 
 export const done: Writable<Boolean> = writable(false);
 
 export const pending: Writable<Boolean> = writable(false);
 
-export const handleTasksFetched = (): void => {
-  refreshTasks.set(true);
+export const fetchTasks = async (): Promise<void> => {
+  const items = await getTasks();
+  const sortItems = items.sort((a: iTask, b: iTask) => {
+    const doneA = Boolean(a.done);
+    const doneB = Boolean(b.done);
+
+    return doneA === doneB ? 0 : doneA ? 1 : -1;
+  });
+  storeTasks.set(sortItems);
 };
 
 export const filterByDoneTasks = (): void => {

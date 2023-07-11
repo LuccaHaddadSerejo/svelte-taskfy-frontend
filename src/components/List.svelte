@@ -1,16 +1,30 @@
 <script lang="ts">
   import { type iTask } from "../interfaces/tasks.";
+  import { dndzone } from "svelte-dnd-action";
   import Card from "./Card.svelte";
-  export let tasks: iTask[] = [];
+
+  export let items: iTask[];
+
+  function handleConsider(e: CustomEvent<DndEvent<iTask>>) {
+    items = e.detail.items;
+  }
+
+  function handleFinalize(e: CustomEvent<DndEvent<iTask>>) {
+    items = e.detail.items;
+  }
 </script>
 
-<ul>
-  {#each tasks as task (task.id)}
+<ul
+  use:dndzone={{ items: items }}
+  on:consider={handleConsider}
+  on:finalize={handleFinalize}
+>
+  {#each items as item (item.id)}
     <Card
-      title={task.title}
-      key={task.id}
-      completed={task.done}
-      subtasks={task.subtasks}
+      title={item.title}
+      key={item.id}
+      completed={item.done}
+      subtasks={item.subtasks}
     />
   {/each}
 </ul>
