@@ -1,29 +1,46 @@
 <script lang="ts">
-  import { deleteSubtask } from "../api";
-  import { handleTasksFetched } from "../store";
   import Button from "./Button.svelte";
+  import { deleteSubtask, updateSubtask } from "../api";
+  import { handleTasksFetched } from "../store";
+  import type { tPartialTask } from "../interfaces/tasks.";
 
   export let subtitle: string;
   export let subkey: number;
+  export let completedSubtask: boolean;
 
   const handleDeleteSubtaskClick = () => {
     deleteSubtask(subkey);
     handleTasksFetched();
   };
+
+  const handleCompleteSubtask = (): void => {
+    const updatedObj: tPartialTask = {
+      done: completedSubtask ? true : false,
+    };
+
+    updateSubtask(updatedObj, subkey);
+  };
 </script>
 
-<li>
+<li class:completedSubtask>
   <div class="contentdivone">
-    <input type="checkbox" />
+    <input
+      type="checkbox"
+      bind:checked={completedSubtask}
+      on:change={handleCompleteSubtask}
+    />
     <h3>{subtitle}</h3>
   </div>
   <div class="contentdivtwo">
-    <Button text buttonssubtask content={"Editar"} />
+    {#if !completedSubtask}
+      <Button text buttonssubtask content={"Editar"} />
+    {/if}
     <Button
       on:click={() => handleDeleteSubtaskClick()}
       text
       buttonssubtask
       content={"Excluir"}
+      disabled={completedSubtask}
     />
   </div>
 </li>
@@ -40,6 +57,11 @@
     color: #cdcdcd;
     font-size: clamp(0.9rem, 1.2vw, 1.2rem);
     font-weight: 600;
+  }
+
+  .completedSubtask {
+    opacity: 0.5;
+    text-decoration: line-through;
   }
 
   .contentdivone {

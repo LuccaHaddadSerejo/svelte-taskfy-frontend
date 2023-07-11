@@ -61,7 +61,7 @@
   };
 </script>
 
-<li class:completed on:dblclick={toogleDirection}>
+<li class:completed>
   <div class="contentdiv">
     <div class="tasktitle">
       <input
@@ -101,7 +101,11 @@
   {#if arrow === arrowup && !completed}
     <ul>
       {#each subtasks as subtask (subtask.id)}
-        <SubtaskCard subtitle={subtask.title} subkey={subtask.id} />
+        <SubtaskCard
+          subtitle={subtask.title}
+          subkey={subtask.id}
+          completedSubtask={subtask.done}
+        />
       {/each}
     </ul>
     <div>

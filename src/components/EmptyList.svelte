@@ -1,11 +1,20 @@
 <script lang="ts">
   import clipboard from "../assets/clipboard.svg";
+  import { done, pending } from "../store";
 </script>
 
 <div class="empty-list">
   <img src={clipboard} alt="Imagem de uma prancheta" />
-  <p>Você ainda não tem tarefas cadastradas</p>
-  <p>Crie tarefas e organize seus itens a fazer</p>
+  {#if $done}
+    <p>Você ainda não finalizou nenhuma tarefa</p>
+    <p>Marque as tarefas concluidas utlizando a caixa ao lado do item</p>
+  {:else if $pending}
+    <p>Você não possui nenhuma tarefa pendente, parabéns.</p>
+    <p>Crie novas tarefas!</p>
+  {:else}
+    <p>Você ainda não tem tarefas cadastradas</p>
+    <p>Crie tarefas e organize seus itens a fazer</p>
+  {/if}
 </div>
 
 <style lang="scss">

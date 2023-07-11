@@ -51,12 +51,14 @@ export const updateTask = async (
     );
     if (res.ok) {
       const resData = await res.json();
-      resData.subtasks.map((elt: any) => {
-        const updatedObj = {
-          done: true,
-        };
-        updateSubtask(updatedObj, elt.id);
-      });
+      if (resData.done) {
+        resData.subtasks.map((elt: any) => {
+          const updatedObj = {
+            done: true,
+          };
+          updateSubtask(updatedObj, elt.id);
+        });
+      }
     }
   } catch (error) {
     console.error(error);
