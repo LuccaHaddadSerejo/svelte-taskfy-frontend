@@ -6,7 +6,12 @@
 
 <ul>
   {#each tasks as task (task.id)}
-    <Card title={task.title} key={task.id} subtasks={task.subtasks} />
+    <Card
+      title={task.title}
+      key={task.id}
+      completed={task.done}
+      subtasks={task.subtasks}
+    />
   {/each}
 </ul>
 
@@ -16,7 +21,5 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    max-height: 800px;
-    overflow-y: auto;
   }
 </style>

@@ -7,29 +7,45 @@
   import SubtaskCard from "./SubtaskCard.svelte";
   import Button from "./Button.svelte";
   import Input from "./Input.svelte";
-  import { createSubtask, deleteTask } from "../api";
+  import { createSubtask, deleteTask, updateTask } from "../api";
   import { handleTasksFetched } from "../store";
-  import type { iSubtask, tCreateSubtask } from "../interfaces/tasks.";
+  import type {
+    iSubtask,
+    tCreateSubtask,
+    tPartialTask,
+  } from "../interfaces/tasks.";
 
   let newSubtask: boolean = false;
   let direction: boolean = false;
-  $: arrow = direction ? arrowup : arrowdown;
-
-  const toogleDirection = () => (direction = !direction);
-  const toogleAddSubtask = () => (newSubtask = !newSubtask);
-
-  export let title: string;
-  export let key: number;
-  export let subtasks: iSubtask[];
   let value: string = "";
   let subtaskObj = {} as tCreateSubtask;
 
-  const formatObj = (): void => {
+  export let completed: boolean;
+  export let title: string;
+  export let key: number;
+  export let subtasks: iSubtask[];
+
+  $: arrow = direction ? arrowup : arrowdown;
+
+  const toogleDirection = () => (direction = !direction);
+
+  const toogleAddSubtask = () => (newSubtask = !newSubtask);
+
+  const formatSubtaskObj = (): void => {
     const newObj: tCreateSubtask = {
       title: value,
     };
 
     subtaskObj = newObj;
+  };
+
+  const handleCompleteTask = (): void => {
+    const updatedObj: tPartialTask = {
+      done: completed ? true : false,
+    };
+
+    direction = false;
+    updateTask(updatedObj, key);
   };
 
   const handleDeleteClick = () => {
@@ -38,18 +54,22 @@
   };
 
   const handleCreateSubtaskClick = async () => {
-    formatObj();
+    formatSubtaskObj();
     createSubtask(subtaskObj, key);
     handleTasksFetched();
     toogleAddSubtask();
   };
 </script>
 
-<li>
+<li class:completed on:dblclick={toogleDirection}>
   <div class="contentdiv">
     <div class="tasktitle">
-      <input type="checkbox" />
-      <h2>{title}</h2>
+      <input
+        type="checkbox"
+        bind:checked={completed}
+        on:change={handleCompleteTask}
+      />
+      <h2 class:completed>{title}</h2>
     </div>
     <div class="taskbuttons">
       <div class="taskbuttonsone">
@@ -58,6 +78,7 @@
           src={editTask}
           editAndArrowButton
           alt={"Imagem de uma caneta e uma prancheta"}
+          disabled={completed}
         />
         <Button
           on:click={handleDeleteClick}
@@ -73,10 +94,11 @@
         src={arrow}
         editAndArrowButton
         alt={"Imagem de uma seta"}
+        disabled={completed}
       />
     </div>
   </div>
-  {#if arrow === arrowup}
+  {#if arrow === arrowup && !completed}
     <ul>
       {#each subtasks as subtask (subtask.id)}
         <SubtaskCard subtitle={subtask.title} subkey={subtask.id} />
@@ -131,6 +153,11 @@
   h2 {
     color: #cdcdcd;
     font-size: clamp(1.5rem, 2vw, 2.5rem);
+  }
+
+  .completed {
+    opacity: 0.5;
+    text-decoration: line-through;
   }
 
   .tasktitle {

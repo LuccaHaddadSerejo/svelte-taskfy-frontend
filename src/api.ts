@@ -49,8 +49,14 @@ export const updateTask = async (
         body: JSON.stringify(data),
       }
     );
-    if (!res.ok) {
-      await res.json();
+    if (res.ok) {
+      const resData = await res.json();
+      resData.subtasks.map((elt: any) => {
+        const updatedObj = {
+          done: true,
+        };
+        updateSubtask(updatedObj, elt.id);
+      });
     }
   } catch (error) {
     console.error(error);
@@ -99,7 +105,7 @@ export const updateSubtask = async (
 ): Promise<void> => {
   try {
     const res: Response = await fetch(
-      `http://localhost:3000/tasks/${String(id)}`,
+      `http://localhost:3000/subtasks/${String(id)}`,
       {
         method: "PATCH",
         headers: {
@@ -108,7 +114,7 @@ export const updateSubtask = async (
         body: JSON.stringify(data),
       }
     );
-    if (!res.ok) {
+    if (res.ok) {
       await res.json();
     }
   } catch (error) {
