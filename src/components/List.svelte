@@ -1,16 +1,25 @@
 <script lang="ts">
-    import Card from "./Card.svelte";
+  import { type iTask } from "../interfaces/tasks.";
+  import Card from "./Card.svelte";
+  export let tasks: iTask[] = [];
 </script>
 
 <ul>
-    <Card title={"placeholder"}/>
+  {#each tasks as task (task.id)}
+    <Card
+      title={task.title}
+      key={task.id}
+      completed={task.done}
+      subtasks={task.subtasks}
+    />
+  {/each}
 </ul>
 
 <style lang="scss">
-    ul{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }   
+  ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 </style>

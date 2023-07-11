@@ -1,102 +1,259 @@
 <script lang="ts">
-    import arrowdown  from "../assets/arrowdown.svg" 
-    import arrowup  from "../assets/arrowup.svg" 
-    import trash  from "../assets/trash.svg" 
-    import editTask  from "../assets/edit.svg" 
-    import SubtaskCard from "./SubtaskCard.svelte";
-    let direction: boolean = false;
-    $: arrow = direction ? arrowup : arrowdown 
+  import arrowdown from "../assets/arrowdown.svg";
+  import arrowup from "../assets/arrowup.svg";
+  import pluspurple from "../assets/plusPurple.svg";
+  import trash from "../assets/trash.svg";
+  import editTask from "../assets/edit.svg";
+  import SubtaskCard from "./SubtaskCard.svelte";
+  import Button from "./Button.svelte";
+  import Input from "./Input.svelte";
+  import { createSubtask, deleteTask, updateTask } from "../api";
+  import { handleTasksFetched } from "../store";
+  import type {
+    iSubtask,
+    tCreateSubtask,
+    tPartialTask,
+  } from "../interfaces/tasks.";
 
-    const toogleDirection = () => direction = !direction
+  let isEditing: boolean = false;
+  let newSubtask: boolean = false;
+  let direction: boolean = false;
+  let value: string = "";
+  let subtaskObj = {} as tCreateSubtask;
 
-    export let title:string;
+  export let completed: boolean;
+  export let title: string;
+  export let key: number;
+  export let subtasks: iSubtask[];
+  let newValue: string = title;
+
+  $: arrow = direction ? arrowup : arrowdown;
+
+  const toogleDirection = () => (direction = !direction);
+  const toogleAddSubtask = () => (newSubtask = !newSubtask);
+  const toogleEditTask = () => (isEditing = !isEditing);
+
+  const formatSubtaskObj = (): void => {
+    const newObj: tCreateSubtask = {
+      title: value,
+    };
+
+    subtaskObj = newObj;
+  };
+
+  const handleEditTask = (): void => {
+    const updatedObj: tPartialTask = {
+      title: newValue,
+    };
+
+    updateTask(updatedObj, key);
+    toogleEditTask();
+  };
+
+  const handleCompleteTask = (): void => {
+    const updatedObj: tPartialTask = {
+      done: completed ? true : false,
+    };
+
+    direction = false;
+    updateTask(updatedObj, key);
+  };
+
+  const handleDeleteClick = () => {
+    deleteTask(key);
+    handleTasksFetched();
+  };
+
+  const handleCreateSubtaskClick = async () => {
+    formatSubtaskObj();
+    createSubtask(subtaskObj, key);
+    handleTasksFetched();
+    resetSubtaskValue();
+  };
+
+  const resetTitleValue = () => {
+    toogleEditTask();
+    newValue = title;
+  };
+
+  const resetSubtaskValue = () => {
+    toogleAddSubtask();
+    value = "";
+  };
 </script>
 
-<li> 
-    <div class="contentdiv">
-        <div class="tasktitle">  
-            <input type="checkbox">  
-            <h2>{title}</h2>
+<li class:completed>
+  <div class="contentdiv">
+    {#if !isEditing}
+      <div class="tasktitle">
+        <input
+          type="checkbox"
+          bind:checked={completed}
+          on:change={handleCompleteTask}
+        />
+        <h2 class:completed>{title}</h2>
+      </div>
+      <div class="taskbuttons">
+        <div class="taskbuttonsone">
+          <Button
+            img
+            src={editTask}
+            editAndArrowButton
+            alt={"Imagem de uma caneta e uma prancheta"}
+            disabled={completed}
+            on:click={toogleEditTask}
+          />
+          <Button
+            on:click={handleDeleteClick}
+            img
+            src={trash}
+            trash
+            alt={"Imagem de um lixo"}
+          />
         </div>
-        <div class="taskbuttons">
-            <div class="taskbuttonsone">
-                <button><img src={editTask} alt="Imagem de um lixo"></button>
-                <button><img class="trash" src={trash} alt="Imagem de uma caneta e uma prancheta"></button>       
-            </div>
-            <button on:click={toogleDirection}>
-                <img src={arrow} alt="Imagem de uma seta">
-            </button>
-    </div>
-    </div>
-    {#if arrow === arrowup}
-        <ul>
-            <SubtaskCard/>
-            <SubtaskCard/>
-            <SubtaskCard/>
-        </ul>
+        <Button
+          on:click={toogleDirection}
+          img
+          src={arrow}
+          editAndArrowButton
+          alt={"Imagem de uma seta"}
+          disabled={completed}
+        />
+      </div>
+    {:else}
+      <Input
+        bind:value={newValue}
+        inputedittitle
+        placeholder={"Digite um novo título"}
+      />
+      <div class="editbuttonsdiv">
+        <Button
+          on:click={() => handleEditTask()}
+          buttonedittask
+          text
+          content={"Confirmar"}
+          disabled={newValue.length === 0}
+        />
+        <Button
+          on:click={resetTitleValue}
+          buttonedittask
+          text
+          content={"Cancelar"}
+        />
+      </div>
     {/if}
+  </div>
+  {#if arrow === arrowup && !completed}
+    <ul>
+      {#each subtasks as subtask (subtask.id)}
+        <SubtaskCard
+          subtitle={subtask.title}
+          subkey={subtask.id}
+          completedSubtask={subtask.done}
+        />
+      {/each}
+    </ul>
+    <div>
+      {#if !newSubtask}
+        <div class="addsubtaskdiv">
+          <Button
+            on:click={() => toogleAddSubtask()}
+            img
+            text
+            buttonaddnewsubtask
+            content={"Adicionar subtask"}
+            src={pluspurple}
+            alt="Imagem de um símbolo de mais"
+          />
+        </div>
+      {:else}
+        <div class="newsubtaskdiv">
+          <Input bind:value inputnewtask placeholder={"Adicione uma subtask"} />
+          <Button
+            on:click={() => handleCreateSubtaskClick()}
+            text
+            disabled={value.length > 0 ? false : true}
+            buttonsnewsubstaskdiv
+            content={"Criar"}
+          />
+          <Button
+            on:click={resetSubtaskValue}
+            text
+            buttonsnewsubstaskdiv
+            content={"Voltar"}
+          />
+        </div>
+      {/if}
+    </div>
+  {/if}
 </li>
+
 <style lang="scss">
-    li{
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            justify-content: space-between;
-            background-color: #262626;
-            border-radius: 8px;
-            padding: 2rem 1rem 2rem 1rem;
-        }
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
+    background-color: #262626;
+    border-radius: 8px;
+    padding: 2rem 1rem 2rem 1rem;
+  }
 
-        img{
-            width: 23px;
-            background-color: transparent;
-            filter: brightness(1.2);
-        }
+  h2 {
+    color: #cdcdcd;
+    font-size: clamp(1.5rem, 2vw, 2.5rem);
+  }
 
-        button{
-            background-color: transparent;
-            :hover{
-                filter: brightness(1.5);
-            }
-        }
+  .completed {
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
 
-        h2{
-            color: #cdcdcd;
-            font-size: clamp(1.5rem, 2vw, 2.5rem);
-        }
+  .tasktitle {
+    display: flex;
+    gap: 20px;
+  }
 
-        .tasktitle{
-            display: flex;
-            gap: 20px;
-        }
+  .taskbuttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+  }
 
-        .taskbuttons{
-            display: flex;
-            justify-content: space-between;
-            gap: 30px;
-        }
+  .taskbuttonsone {
+    display: flex;
+    gap: 10px;
+  }
 
-        .taskbuttonsone{
-            display: flex;
-            gap: 10px;
-        }
+  .contentdiv {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
 
-        .contentdiv{
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            justify-content: space-between;
+    @media (min-width: 800px) {
+      flex-direction: row;
+    }
+  }
 
-            @media(min-width: 800px){
-                flex-direction: row;
-            }
-        }
+  .addsubtaskdiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-        .trash{
-            width: 30px;
-            position: relative;
-            top: 2px;
-        }
+  .newsubtaskdiv {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .editbuttonsdiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
 </style>
-
-
