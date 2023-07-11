@@ -8,6 +8,9 @@
   export let buttonaddnewsubtask: boolean = false;
   export let buttonsnewsubstaskdiv: boolean = false;
   export let buttonssubtask: boolean = false;
+  export let buttonedittask: boolean = false;
+  export let buttonfilter: boolean = false;
+  export let buttonclearfilter: boolean = false;
   export let imgheader: boolean = false;
   export let trash: boolean = false;
   export let editAndArrowButton: boolean = false;
@@ -23,6 +26,9 @@
   class:buttonaddnewsubtask
   class:buttonsnewsubstaskdiv
   class:buttonssubtask
+  class:buttonedittask
+  class:buttonfilter
+  class:buttonclearfilter
   class:disabled
   on:click
 >
@@ -108,5 +114,31 @@
   .buttonssubtask {
     text-decoration: underline;
     color: #4ea8de;
+  }
+
+  .buttonedittask {
+    justify-content: center;
+    text-decoration: underline;
+    color: #1e6f9f;
+    font-weight: 700;
+    filter: brightness(1.2);
+
+    &:hover {
+      filter: brightness(1.5);
+    }
+  }
+
+  .buttonfilter {
+    padding: clamp(0.6rem, 0.8vw, 1.5rem);
+    border-radius: 8px;
+    color: #dcdcdc;
+    background-color: #1e6f9f;
+  }
+
+  .buttonclearfilter {
+    padding: clamp(0.6rem, 0.8vw, 1.5rem);
+    border-radius: 8px;
+    color: #dcdcdc;
+    background-color: #5e60ce;
   }
 </style>

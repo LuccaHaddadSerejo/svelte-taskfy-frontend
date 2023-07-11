@@ -2,6 +2,7 @@
   export let placeholder: string = undefined;
   export let inputheader: boolean = false;
   export let inputnewtask: boolean = false;
+  export let inputedittitle: boolean = false;
   export let value: string = undefined;
 </script>
 
@@ -9,6 +10,7 @@
   class="input"
   class:inputheader
   class:inputnewtask
+  class:inputedittitle
   type="text"
   {placeholder}
   on:blur
@@ -42,5 +44,16 @@
     width: min(100%, 600px);
     border-radius: 8px;
     border: 1px solid #0d0d0d;
+  }
+
+  .inputedittitle {
+    background-color: #dcdcdc;
+    width: min(100%);
+    border-radius: 8px;
+    border: 1px solid #0d0d0d;
+
+    &:focus {
+      outline: none;
+    }
   }
 </style>

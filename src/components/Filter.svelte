@@ -6,6 +6,7 @@
     done,
     pending,
   } from "../store";
+  import Button from "./Button.svelte";
 </script>
 
 <div class="container">
@@ -13,11 +14,26 @@
     <h3>Filtrar por:</h3>
   </div>
   <div class="divbuttons">
-    <button on:click={() => filterByDoneTasks()}>Tarefas concluídas</button>
-    <button on:click={() => filterByPendingTasks()}>Tarefas pendentes</button>
+    <Button
+      on:click={() => filterByDoneTasks()}
+      buttonfilter
+      text
+      content={"Tarefas concluídas"}
+    />
+    <Button
+      on:click={() => filterByPendingTasks()}
+      buttonfilter
+      text
+      content={"Tarefas pendentes"}
+    />
   </div>
   {#if $done || $pending}
-    <button on:click={() => clearFilters()}>Limpar filtro</button>
+    <Button
+      on:click={() => clearFilters()}
+      buttonclearfilter
+      text
+      content={"Limpar filtro"}
+    />
   {/if}
 </div>
 
@@ -25,13 +41,6 @@
   h3 {
     color: #cdcdcd;
     font-weight: 700;
-  }
-
-  button {
-    padding: clamp(0.6rem, 0.8vw, 1.5rem);
-    border-radius: 8px;
-    color: #dcdcdc;
-    background-color: #1e6f9f;
   }
 
   .container {

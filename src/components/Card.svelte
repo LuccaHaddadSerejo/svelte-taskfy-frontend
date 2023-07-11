@@ -68,7 +68,17 @@
     formatSubtaskObj();
     createSubtask(subtaskObj, key);
     handleTasksFetched();
+    resetSubtaskValue();
+  };
+
+  const resetTitleValue = () => {
+    toogleEditTask();
+    newValue = title;
+  };
+
+  const resetSubtaskValue = () => {
     toogleAddSubtask();
+    value = "";
   };
 </script>
 
@@ -111,21 +121,25 @@
         />
       </div>
     {:else}
-      <input
-        type="text"
+      <Input
         bind:value={newValue}
-        class="edittitleinput"
-        placeholder="Digite um novo título"
+        inputedittitle
+        placeholder={"Digite um novo título"}
       />
       <div class="editbuttonsdiv">
-        <button
+        <Button
           on:click={() => handleEditTask()}
-          class="edittaskbutton"
-          disabled={newValue.length === 0}>Editar</button
-        >
-        <button on:click={toogleEditTask} class="edittaskbutton"
-          >Cancelar</button
-        >
+          buttonedittask
+          text
+          content={"Confirmar"}
+          disabled={newValue.length === 0}
+        />
+        <Button
+          on:click={resetTitleValue}
+          buttonedittask
+          text
+          content={"Cancelar"}
+        />
       </div>
     {/if}
   </div>
@@ -163,7 +177,7 @@
             content={"Criar"}
           />
           <Button
-            on:click={() => toogleAddSubtask()}
+            on:click={resetSubtaskValue}
             text
             buttonsnewsubstaskdiv
             content={"Voltar"}
@@ -236,42 +250,10 @@
     gap: 15px;
   }
 
-  .edittitleinput {
-    background-color: #dcdcdc;
-    padding: 1rem;
-    width: min(100%);
-    border-radius: 8px;
-    border: 1px solid #0d0d0d;
-
-    &:focus {
-      outline: none;
-    }
-
-    &::placeholder {
-      color: #dcdcdc;
-      font-size: 0.875rem;
-    }
-  }
-
   .editbuttonsdiv {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-  }
-
-  .edittaskbutton {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    text-decoration: underline;
-    color: #1e6f9f;
-    font-weight: 700;
-    filter: brightness(1.2);
-
-    &:hover {
-      filter: brightness(1.5);
-    }
   }
 </style>
