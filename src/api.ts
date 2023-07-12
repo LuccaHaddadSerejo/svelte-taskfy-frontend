@@ -16,27 +16,31 @@ const baseURL = "http://localhost:3000/";
 export const getTasks = async (): Promise<iTask[]> => {
   try {
     const res = await fetch(`${baseURL}tasks`);
+    const data = await res.json();
     if (res.ok) {
-      const data = await res.json();
       return data;
+    } else {
+      throw new Error(data.message[0]);
     }
   } catch (error) {
     console.error(error);
   }
 };
 
-export const createTask = async (data: tCreateTask): Promise<void> => {
+export const createTask = async (body: tCreateTask): Promise<void> => {
   try {
     const res: Response = await fetch(`${baseURL}tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     });
+    const data = await res.json();
     if (res.ok) {
-      await res.json();
       await fetchTasks();
+    } else {
+      throw new Error(data.message[0]);
     }
   } catch (error) {
     console.error(error);
@@ -48,7 +52,7 @@ export const createTask = async (data: tCreateTask): Promise<void> => {
 */
 
 export const updateTask = async (
-  data: tPartialTask,
+  body: tPartialTask,
   id: number
 ): Promise<void> => {
   try {
@@ -57,19 +61,21 @@ export const updateTask = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     });
+    const data = await res.json();
     if (res.ok) {
-      const resData = await res.json();
-      if (resData.done) {
-        resData.subtasks.map((subtask: iSubtask) => {
-          const updatedObj = {
+      if (data.done) {
+        data.subtasks.map((subtask: iSubtask) => {
+          const updatedSubtask = {
             done: true,
           };
-          updateSubtask(updatedObj, subtask.id);
+          updateSubtask(updatedSubtask, subtask.id);
         });
       }
       await fetchTasks();
+    } else {
+      throw new Error(data.message[0]);
     }
   } catch (error) {
     console.error(error);
@@ -78,12 +84,14 @@ export const updateTask = async (
 
 export const deleteTask = async (id: number): Promise<void> => {
   try {
-    const formatData = String(id);
-    const res = await fetch(`${baseURL}tasks/${formatData}`, {
+    const res = await fetch(`${baseURL}tasks/${id + ""}`, {
       method: "DELETE",
     });
+    const data = await res.json();
     if (res.ok) {
       await fetchTasks();
+    } else {
+      throw new Error(data.message[0]);
     }
   } catch (error) {
     console.error(error);
@@ -91,7 +99,7 @@ export const deleteTask = async (id: number): Promise<void> => {
 };
 
 export const createSubtask = async (
-  data: tCreateSubtask,
+  body: tCreateSubtask,
   id: number
 ): Promise<void> => {
   try {
@@ -100,11 +108,13 @@ export const createSubtask = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     });
+    const data = await res.json();
     if (res.ok) {
-      await res.json();
       await fetchTasks();
+    } else {
+      throw new Error(data.message[0]);
     }
   } catch (error) {
     console.error(error);
@@ -112,7 +122,7 @@ export const createSubtask = async (
 };
 
 export const updateSubtask = async (
-  data: tPartialTask,
+  body: tPartialTask,
   id: number
 ): Promise<void> => {
   try {
@@ -121,11 +131,13 @@ export const updateSubtask = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     });
+    const data = await res.json();
     if (res.ok) {
-      await res.json();
       await fetchTasks();
+    } else {
+      throw new Error(data.message[0]);
     }
   } catch (error) {
     console.error(error);
@@ -137,8 +149,11 @@ export const deleteSubtask = async (id: number): Promise<void> => {
     const res = await fetch(`${baseURL}subtasks/${id + ""}`, {
       method: "DELETE",
     });
+    const data = await res.json();
     if (res.ok) {
       await fetchTasks();
+    } else {
+      throw new Error(data.message[0]);
     }
   } catch (error) {
     console.error(error);
