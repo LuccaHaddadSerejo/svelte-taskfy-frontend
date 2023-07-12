@@ -13,7 +13,7 @@
     tCreateSubtask,
     tPartialTask,
   } from "../interfaces/tasks.";
-  import { fade, slide } from "svelte/transition";
+
   export let completed: boolean;
   export let title: string;
   export let key: number;
