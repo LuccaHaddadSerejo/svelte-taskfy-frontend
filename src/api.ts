@@ -20,7 +20,7 @@ export const getTasks = async (): Promise<iTask[]> => {
     if (res.ok) {
       return data;
     } else {
-      throw new Error(data.message[0]);
+      throw new Error(data.message);
     }
   } catch (error) {
     console.error(error);
@@ -75,7 +75,7 @@ export const updateTask = async (
       }
       await fetchTasks();
     } else {
-      throw new Error(data.message[0]);
+      throw new Error(data.message);
     }
   } catch (error) {
     console.error(error);
@@ -87,11 +87,11 @@ export const deleteTask = async (id: number): Promise<void> => {
     const res = await fetch(`${baseURL}tasks/${id + ""}`, {
       method: "DELETE",
     });
-    const data = await res.json();
     if (res.ok) {
       await fetchTasks();
     } else {
-      throw new Error(data.message[0]);
+      const data = await res.json();
+      throw new Error(data.message);
     }
   } catch (error) {
     console.error(error);
@@ -114,7 +114,7 @@ export const createSubtask = async (
     if (res.ok) {
       await fetchTasks();
     } else {
-      throw new Error(data.message[0]);
+      throw new Error(data.message);
     }
   } catch (error) {
     console.error(error);
@@ -133,11 +133,11 @@ export const updateSubtask = async (
       },
       body: JSON.stringify(body),
     });
-    const data = await res.json();
     if (res.ok) {
       await fetchTasks();
     } else {
-      throw new Error(data.message[0]);
+      const data = await res.json();
+      throw new Error(data.message);
     }
   } catch (error) {
     console.error(error);
@@ -149,11 +149,12 @@ export const deleteSubtask = async (id: number): Promise<void> => {
     const res = await fetch(`${baseURL}subtasks/${id + ""}`, {
       method: "DELETE",
     });
-    const data = await res.json();
     if (res.ok) {
       await fetchTasks();
     } else {
-      throw new Error(data.message[0]);
+      const data = await res.json();
+      console.log(data);
+      throw new Error(data.message);
     }
   } catch (error) {
     console.error(error);
