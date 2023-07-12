@@ -1,16 +1,5 @@
 <script lang="ts">
   import rocket from "../assets/rocket.svg";
-  import mgwhite from "../assets/mgwhite.svg";
-  import mgblack from "../assets/mgblack.svg";
-  import Button from "./Button.svelte";
-  import Input from "./Input.svelte";
-
-  let isFocused: boolean = false;
-
-  $: mgImage = isFocused ? mgblack : mgwhite;
-
-  const onFocus = (): boolean => (isFocused = true);
-  const onBlur = (): boolean => (isFocused = false);
 </script>
 
 <div>
@@ -19,93 +8,51 @@
       <img src={rocket} alt="Imagem de um foguete decolando" />
       <h1>Task<span>fy</span></h1>
     </div>
-    <div class={isFocused ? "input-focus-div" : "input-no-focus-div"}>
-      <Button
-        buttonheader
-        img
-        imgheader
-        src={mgImage}
-        alt={"Imagem de uma lupa"}
-      />
-      <Input
-        inputheader
-        placeholder={"Pesquisar"}
-        on:focus={onFocus}
-        on:blur={onBlur}
-      />
-    </div>
   </header>
 </div>
 
 <style lang="scss">
-  $color-one: #0d0d0d;
-  $color-two: #dcdcdc;
-  $color-three: #262626;
-  $size-one: clamp(2rem, 6vw, 3rem);
-  $height-one: 45px;
-
   div {
-    background-color: $color-one;
-
-    @media (min-width: 600px) {
-      width: 100%;
-    }
+    background-color: var(--color-gray-1);
 
     header {
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      width: min(90%, 1400px);
       margin: 0 auto;
       min-height: 100px;
-      padding: 10px 0 10px 0;
+      padding: var(--padding-3) 0 var(--padding-3) 0;
 
-      @media (min-width: 600px) {
-        flex-direction: row;
-        justify-content: space-between;
-      }
-
-      :nth-child(1),
-      :nth-child(2) {
+      :nth-child(1) {
         position: relative;
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: var(--gap-1);
       }
 
       :nth-child(1) {
         img {
           position: relative;
-          height: $size-one;
+          height: var(--font-size-1);
         }
 
         h1 {
-          color: #4ea8de;
-          font-size: $size-one;
-          background-color: $color-one;
+          color: var(--color-primary);
+          font-size: var(--font-size-1);
+          background-color: var(--color-gray-1);
         }
 
         span {
-          color: #5e60ce;
+          color: var(--color-secondary);
         }
       }
 
       :nth-child(2) {
-        border: 1px solid $color-one;
-        border-radius: 8px;
+        border: 1px solid var(--color-gray-1);
+        border-radius: var(--radius-1);
         display: flex;
-        gap: 1px;
+        gap: 0px;
       }
     }
-  }
-
-  .input-focus-div {
-    background-color: $color-two;
-  }
-
-  .input-no-focus-div {
-    background-color: $color-three;
   }
 </style>

@@ -27,7 +27,7 @@
     gap: 12px;
     p {
       font-size: clamp(0.5rem, 4vw, 1rem);
-      font-weight: 700;
+      font-weight: var(--font-weight-1);
     }
 
     div {
@@ -40,18 +40,18 @@
       height: 20px;
 
       span {
-        font-weight: 400;
+        font-weight: var(--font-weight-3);
         font-size: clamp(0.5rem, 4.5vw, 0.8rem);
-        color: #cdcdcd;
+        color: var(--color-gray-4);
       }
     }
   }
 
   .blue {
-    color: #4ea8de;
+    color: var(--color-primary);
   }
 
   .purple {
-    color: #5e60ce;
+    color: var(--color-secondary);
   }
 </style>

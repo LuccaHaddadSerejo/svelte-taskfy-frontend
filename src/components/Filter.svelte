@@ -15,13 +15,13 @@
   </div>
   <div class="divbuttons">
     <Button
-      on:click={() => filterByDoneTasks()}
+      on:click={filterByDoneTasks}
       buttonfilter
       text
       content={"Tarefas concluídas"}
     />
     <Button
-      on:click={() => filterByPendingTasks()}
+      on:click={filterByPendingTasks}
       buttonfilter
       text
       content={"Tarefas pendentes"}
@@ -29,7 +29,7 @@
   </div>
   {#if $done || $pending}
     <Button
-      on:click={() => clearFilters()}
+      on:click={clearFilters}
       buttonclearfilter
       text
       content={"Limpar filtro"}
@@ -39,8 +39,8 @@
 
 <style lang="scss">
   h3 {
-    color: #cdcdcd;
-    font-weight: 700;
+    color: var(--color-gray-4);
+    font-weight: var(--font-weight-1);
   }
 
   .container {
@@ -49,7 +49,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 2rem;
-    gap: 15px;
+    gap: var(--gap-1);
   }
 
   .divbuttons {

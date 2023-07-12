@@ -45,8 +45,11 @@
     display: inline-flex;
     align-items: center;
     background-color: transparent;
-    :hover {
-      filter: brightness(1.5);
+    font-weight: var(--font-weight-2);
+
+    &:hover {
+      filter: brightness(1.2);
+      transition: all 0.5s;
     }
   }
 
@@ -57,9 +60,9 @@
 
   .buttonheader {
     justify-content: center;
-    padding: 0.5rem;
+    padding: var(--padding-4);
     background-color: transparent;
-    height: 48px;
+    height: var(--height-1);
     position: relative;
     z-index: 1;
   }
@@ -70,26 +73,23 @@
   }
 
   .buttonnewtask {
-    gap: 0.5rem;
-    color: #dcdcdc;
-    background-color: #1e6f9f;
-    border-radius: 8px;
-    padding: 1rem;
-    height: 48px;
-
-    &:hover {
-      filter: brightness(1.2);
-    }
+    gap: var(--gap-2);
+    color: #000000;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-1);
+    padding: var(--padding-2);
+    height: var(--height-1);
   }
 
   .trash {
-    width: 30px;
+    width: 34px;
     position: relative;
     top: 2px;
   }
 
   .editAndArrowButton {
-    width: 23px;
+    width: 27px;
+    height: 27px;
     filter: brightness(1.2);
   }
 
@@ -97,48 +97,45 @@
     flex-direction: column;
     justify-content: center;
     gap: 10px;
-    color: #5e60ce;
+    color: var(--color-secondary);
     font-size: clamp(0.9rem, 1.2vw, 1.2rem);
-    font-weight: 700;
+    font-weight: var(--font-weight-1);
   }
 
   .buttonsnewsubstaskdiv {
-    color: #dcdcdc;
-    background-color: #1e6f9f;
-    border-radius: 8px;
-    padding: 0.5rem;
+    color: #000000;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-1);
+    padding: var(--padding-4);
     min-width: 53px;
     justify-content: center;
   }
 
   .buttonssubtask {
     text-decoration: underline;
-    color: #4ea8de;
+    color: var(--color-primary);
+    height: 25px;
   }
 
   .buttonedittask {
     justify-content: center;
     text-decoration: underline;
-    color: #1e6f9f;
-    font-weight: 700;
-    filter: brightness(1.2);
-
-    &:hover {
-      filter: brightness(1.5);
-    }
+    color: var(--color-primary);
+    height: 40px;
+    font-weight: var(--font-weight-1);
   }
 
   .buttonfilter {
     padding: clamp(0.6rem, 0.8vw, 1.5rem);
-    border-radius: 8px;
-    color: #dcdcdc;
-    background-color: #1e6f9f;
+    border-radius: var(--radius-1);
+    color: #000000;
+    background-color: var(--color-primary);
   }
 
   .buttonclearfilter {
     padding: clamp(0.6rem, 0.8vw, 1.5rem);
-    border-radius: 8px;
-    color: #dcdcdc;
-    background-color: #5e60ce;
+    border-radius: var(--radius-1);
+    color: #000000;
+    background-color: var(--color-secondary);
   }
 </style>
