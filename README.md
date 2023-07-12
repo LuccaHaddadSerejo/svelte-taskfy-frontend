@@ -10,7 +10,7 @@ Uma aplicação para administrar tarefas.
 - <a href="#-ferramentas">Ferramentas</a>
 - <a href="#-interagir">Como interagir com o projeto</a>
 
-<h2 href="#-instalar">Instalando e rodando o projeto<h2>
+## <h2 id="#-instalar">Instalando e rodando o projeto<h2>
 
 ```bash
 # Instale as dependências:
@@ -23,7 +23,7 @@ $ npm run dev
 $ http://localhost:5173/
 ```
 
-<h2 href="#-funcionalidades">Funcionalidades<h2>
+## <h2 id="#-funcionalidades">Funcionalidades<h2>
 
 ### Gerais
 
@@ -35,19 +35,19 @@ $ http://localhost:5173/
 - Deleção de subtarefas;
 - Filtro por estado da tarefa - pendente ou concluída.
 
-<h2 href="#-bibliotecas">Bibliotecas utilizadas<h2>
+## <h2 id="#-bibliotecas">Bibliotecas utilizadas<h2>
 
 - [x] Svelte
 - [x] Sass
 - [x] Svelte-DND-Action
 
-<h2 href="#-ferramentas">Ferramentas<h2>
+## <h2 id="#-ferramentas">Ferramentas<h2>
 
 - [x] TypeScript
 - [x] VS CODE
 - [x] GitHub
 - [x] GIT
 
-<h2 href="#-interagir">Como interagir com o projeto<h2>
+## <h2 id="#-interagir">Como interagir com o projeto<h2>
 
 [Clique aqui](https://github.com/LuccaHaddadSerejo/taskfy-backend) para acessar o repositório da API relacionada a este projeto.
