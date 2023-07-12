@@ -19,6 +19,10 @@
     }
   }
 
+  /*
+  Função para pegar os dados na API no momento da montagem
+  */
+
   onMount(async () => {
     await fetchTasks();
   });
