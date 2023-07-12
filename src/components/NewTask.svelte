@@ -7,6 +7,10 @@
 
   let value: string = "";
 
+  /*
+    Função para criar uma nova task e logo após resetar o valor do input.
+  */
+
   const handleClick = async (): Promise<void> => {
     const newObj: tCreateTask = {
       title: value,

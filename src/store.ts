@@ -8,6 +8,10 @@ export const done: Writable<Boolean> = writable(false);
 
 export const pending: Writable<Boolean> = writable(false);
 
+/*
+  Função para pegar os dados da API ordernar ele em ordem de não feitos e feitos.
+*/
+
 export const fetchTasks = async (): Promise<void> => {
   const items = await getTasks();
   const sortItems = items.sort((a: iTask, b: iTask) => {

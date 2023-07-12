@@ -12,6 +12,10 @@
 
   const toogleEditSubtask = () => (isEditing = !isEditing);
 
+  /*
+    Função para mudar o estado da subtask de done para pending ou vice e versa.
+  */
+
   const handleCompleteSubtask = (): void => {
     const updatedObj: tPartialTask = {
       done: completedSubtask ? true : false,
@@ -19,6 +23,10 @@
 
     updateSubtask(updatedObj, subkey);
   };
+
+  /*
+    Função para atualizar o title da subtask e mudar a condicional de edição de subtask.
+  */
 
   const handleEditSubtask = (): void => {
     const updatedObj: tPartialTask = {
@@ -28,6 +36,10 @@
     updateSubtask(updatedObj, subkey);
     toogleEditSubtask();
   };
+
+  /*
+    Função para resetar o valor do title da subtask caso o usuário tenha mudado no input de edição e cancelado.
+  */
 
   const resetSubtitleValue = () => {
     toogleEditSubtask();

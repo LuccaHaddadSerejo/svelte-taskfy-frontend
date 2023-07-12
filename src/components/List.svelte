@@ -7,9 +7,17 @@
   export let items: iTask[];
   const flipDurationMs = 200;
 
+  /*
+    Função que é executada com o drag do item.
+  */
+
   function handleConsider(e: CustomEvent<DndEvent<iTask>>) {
     items = e.detail.items;
   }
+
+  /*
+    Função que é executada com o drop do item.
+  */
 
   function handleFinalize(e: CustomEvent<DndEvent<iTask>>) {
     items = e.detail.items;

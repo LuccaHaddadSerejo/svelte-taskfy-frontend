@@ -31,6 +31,10 @@
   const toogleAddSubtask = () => (newSubtask = !newSubtask);
   const toogleEditTask = () => (isEditing = !isEditing);
 
+  /*
+    Função para criar um novo objeto, atualizar uma task e mudar a condicional de edição de task.
+  */
+
   const handleEditTask = (): void => {
     const updatedObj: tPartialTask = {
       title: newValue,
@@ -39,6 +43,10 @@
     updateTask(updatedObj, key);
     toogleEditTask();
   };
+
+  /*
+    Função para mudar a task de pending para done e colapsar o item.
+  */
 
   const handleCompleteTask = (): void => {
     const updatedObj: tPartialTask = {
@@ -49,6 +57,10 @@
     direction = false;
   };
 
+  /*
+    Função para criar uma nova subtask no item específico, com base no id.
+  */
+
   const handleCreateSubtaskClick = async (): Promise<void> => {
     const newSubtask: tCreateSubtask = {
       title: value,
@@ -57,10 +69,18 @@
     resetSubtaskValue();
   };
 
+  /*
+    Função para resetar o valor do title, caso tenha sido alterado no input de edição de tasks.
+  */
+
   const resetTitleValue = () => {
     toogleEditTask();
     newValue = title;
   };
+
+  /*
+    Função para resetar o valor do input, caso o usuário cancele a criação da subtask.
+  */
 
   const resetSubtaskValue = () => {
     toogleAddSubtask();

@@ -7,6 +7,10 @@ import {
 } from "./interfaces/tasks.";
 import { fetchTasks } from "./store";
 
+/*
+  Documento com todas as funções que se comunicam com a API.
+*/
+
 const baseURL = "http://localhost:3000/";
 
 export const getTasks = async (): Promise<iTask[]> => {
@@ -38,6 +42,10 @@ export const createTask = async (data: tCreateTask): Promise<void> => {
     console.error(error);
   }
 };
+
+/*
+  Nessa função de atualizar tasks, caso o atributo "done" tenha sido atualizado, todas as subtasks do item serão atualizadas também.
+*/
 
 export const updateTask = async (
   data: tPartialTask,
