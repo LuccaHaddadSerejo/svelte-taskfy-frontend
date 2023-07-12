@@ -5,22 +5,17 @@
   import TaskCount from "../components/TaskCount.svelte";
   import List from "../components/List.svelte";
   import Filter from "../components/Filter.svelte";
-  import { storeTasks, fetchTasks, done, pending } from "../store";
-  import { onMount } from "svelte";
   import type { iTask } from "../interfaces/tasks.";
+  import { onMount } from "svelte";
+  import { storeTasks, fetchTasks, done, pending } from "../store";
 
   let doneTasks: iTask[] = [];
   let pendingTasks: iTask[] = [];
 
   $: {
     if ($storeTasks) {
-      if ($done) {
-        doneTasks = $storeTasks.filter((task: iTask) => task.done);
-      }
-
-      if ($pending) {
-        pendingTasks = $storeTasks.filter((task: iTask) => !task.done);
-      }
+      doneTasks = $storeTasks.filter((task: iTask) => task.done);
+      pendingTasks = $storeTasks.filter((task: iTask) => !task.done);
     }
   }
 

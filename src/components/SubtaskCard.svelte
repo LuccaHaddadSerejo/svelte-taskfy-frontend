@@ -12,10 +12,6 @@
 
   const toogleEditSubtask = () => (isEditing = !isEditing);
 
-  const handleDeleteSubtaskClick = async (): Promise<void> => {
-    deleteSubtask(subkey);
-  };
-
   const handleCompleteSubtask = (): void => {
     const updatedObj: tPartialTask = {
       done: completedSubtask ? true : false,
@@ -41,29 +37,31 @@
 
 <li class:completedSubtask>
   {#if !isEditing}
-    <div class="contentdivone">
-      <input
-        type="checkbox"
-        bind:checked={completedSubtask}
-        on:change={handleCompleteSubtask}
-      />
-      <h3 class={completedSubtask ? "completedText" : ""}>{subtitle}</h3>
-    </div>
-    <div class="contentdivtwo">
-      {#if !completedSubtask}
+    <div class="wrapper">
+      <div class="contentdivone">
+        <input
+          type="checkbox"
+          bind:checked={completedSubtask}
+          on:change={handleCompleteSubtask}
+        />
+        <h3 class={completedSubtask ? "completedText" : ""}>{subtitle}</h3>
+      </div>
+      <div class="contentdivtwo">
+        {#if !completedSubtask}
+          <Button
+            on:click={toogleEditSubtask}
+            text
+            buttonssubtask
+            content={"Editar"}
+          />
+        {/if}
         <Button
-          on:click={toogleEditSubtask}
+          on:click={() => deleteSubtask(subkey)}
           text
           buttonssubtask
-          content={"Editar"}
+          content={"Excluir"}
         />
-      {/if}
-      <Button
-        on:click={() => handleDeleteSubtaskClick()}
-        text
-        buttonssubtask
-        content={"Excluir"}
-      />
+      </div>
     </div>
   {:else}
     <div class="editcontentdiv">
@@ -74,7 +72,7 @@
       />
       <div class="editbuttonsdiv">
         <Button
-          on:click={() => handleEditSubtask()}
+          on:click={handleEditSubtask}
           text
           buttonedittask
           content={"Confirmar"}
@@ -95,14 +93,18 @@
   li {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid #cdcdcd;
-    padding: 10px 0 10px 0;
+    border-bottom: 1px solid var(--color-gray-4);
+    padding: var(--padding-3) 0 var(--padding-3) 0;
   }
 
   h3 {
-    color: #cdcdcd;
+    color: var(--color-gray-4);
     font-size: clamp(0.9rem, 1.2vw, 1.2rem);
-    font-weight: 600;
+    font-weight: var(--font-weight-2);
+  }
+
+  .wrapper {
+    margin-left: 20px;
   }
 
   .completedSubtask {
@@ -115,12 +117,12 @@
 
   .contentdivone {
     display: flex;
-    gap: 15px;
+    gap: var(--gap-1);
   }
 
   .contentdivtwo {
     display: flex;
-    gap: 10px;
+    gap: var(--gap-3);
     margin-top: 10px;
   }
 
@@ -129,7 +131,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: var(--gap-3);
 
     @media (min-width: 800px) {
       flex-direction: row;
@@ -140,6 +142,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: var(--gap-3);
   }
 </style>

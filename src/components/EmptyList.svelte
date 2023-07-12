@@ -22,27 +22,26 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: var(--gap-1);
     margin-top: 40px;
-    border-top: 2px solid #454545;
-    padding-top: 20px;
+    border-top: 2px solid var(--color-gray-4);
+    padding-top: var(--padding-1);
 
     img {
       width: 150px;
     }
 
     :nth-child(2) {
-      color: #cdcdcd;
-      font-weight: 600;
-      font-size: clamp(0.8rem, 4.5vw, 1.4rem);
+      color: var(--color-gray-4);
+      font-weight: var(--font-weight-2);
+      font-size: var(--font-size-2);
     }
 
     :nth-child(3) {
-      color: #cdcdcd;
+      color: var(--color-gray-4);
       opacity: 0.9;
-      font-weight: 400;
-      font-size: 14px;
-      font-size: clamp(0.5rem, 4vw, 1.2rem);
+      font-weight: var(--font-weight-3);
+      font-size: var(--font-size-3);
     }
   }
 </style>

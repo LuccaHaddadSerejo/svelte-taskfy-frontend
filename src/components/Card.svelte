@@ -13,17 +13,16 @@
     tCreateSubtask,
     tPartialTask,
   } from "../interfaces/tasks.";
+  import { fade, slide } from "svelte/transition";
+  export let completed: boolean;
+  export let title: string;
+  export let key: number;
+  export let subtasks: iSubtask[];
 
   let isEditing: boolean = false;
   let newSubtask: boolean = false;
   let direction: boolean = false;
   let value: string = "";
-  let subtaskObj = {} as tCreateSubtask;
-
-  export let completed: boolean;
-  export let title: string;
-  export let key: number;
-  export let subtasks: iSubtask[];
   let newValue: string = title;
 
   $: arrow = direction ? arrowup : arrowdown;
@@ -31,14 +30,6 @@
   const toogleDirection = () => (direction = !direction);
   const toogleAddSubtask = () => (newSubtask = !newSubtask);
   const toogleEditTask = () => (isEditing = !isEditing);
-
-  const formatSubtaskObj = (): void => {
-    const newObj: tCreateSubtask = {
-      title: value,
-    };
-
-    subtaskObj = newObj;
-  };
 
   const handleEditTask = (): void => {
     const updatedObj: tPartialTask = {
@@ -54,18 +45,15 @@
       done: completed ? true : false,
     };
 
-    direction = false;
     updateTask(updatedObj, key);
-  };
-
-  const handleDeleteClick = async (): Promise<void> => {
-    deleteTask(key);
+    direction = false;
   };
 
   const handleCreateSubtaskClick = async (): Promise<void> => {
-    formatSubtaskObj();
-    createSubtask(subtaskObj, key);
-
+    const newSubtask: tCreateSubtask = {
+      title: value,
+    };
+    createSubtask(newSubtask, key);
     resetSubtaskValue();
   };
 
@@ -102,7 +90,7 @@
             on:click={toogleEditTask}
           />
           <Button
-            on:click={handleDeleteClick}
+            on:click={() => deleteTask(key)}
             img
             src={trash}
             trash
@@ -126,7 +114,7 @@
       />
       <div class="editbuttonsdiv">
         <Button
-          on:click={() => handleEditTask()}
+          on:click={handleEditTask}
           buttonedittask
           text
           content={"Confirmar"}
@@ -155,7 +143,7 @@
       {#if !newSubtask}
         <div class="addsubtaskdiv">
           <Button
-            on:click={() => toogleAddSubtask()}
+            on:click={toogleAddSubtask}
             img
             text
             buttonaddnewsubtask
@@ -168,7 +156,7 @@
         <div class="newsubtaskdiv">
           <Input bind:value inputnewtask placeholder={"Adicione uma subtask"} />
           <Button
-            on:click={() => handleCreateSubtaskClick()}
+            on:click={handleCreateSubtaskClick}
             text
             disabled={value.length > 0 ? false : true}
             buttonsnewsubstaskdiv
@@ -190,16 +178,16 @@
   li {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: var(--gap-1);
     justify-content: space-between;
-    background-color: #262626;
-    border-radius: 8px;
+    background-color: var(--color-gray-2);
+    border-radius: var(--radius-1);
     padding: 2rem 1rem 2rem 1rem;
   }
 
   h2 {
-    color: #cdcdcd;
-    font-size: clamp(1.5rem, 2vw, 2.5rem);
+    color: var(--color-gray-4);
+    font-size: clamp(1.5rem, 2vw, 2rem);
   }
 
   .completed {
@@ -220,14 +208,14 @@
 
   .taskbuttonsone {
     display: flex;
-    gap: 10px;
+    gap: var(--gap-3);
   }
 
   .contentdiv {
     display: flex;
     flex-direction: column;
-    gap: 15px;
     justify-content: space-between;
+    gap: var(--gap-3);
 
     @media (min-width: 800px) {
       flex-direction: row;
@@ -245,13 +233,13 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: var(--gap-1);
   }
 
   .editbuttonsdiv {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: var(--gap-3);
   }
 </style>

@@ -1,14 +1,17 @@
 import {
+  type iSubtask,
   type iTask,
   type tCreateSubtask,
   type tCreateTask,
   type tPartialTask,
 } from "./interfaces/tasks.";
-import { storeTasks } from "./store";
+import { fetchTasks } from "./store";
+
+const baseURL = "http://localhost:3000/";
 
 export const getTasks = async (): Promise<iTask[]> => {
   try {
-    const res = await fetch("http://localhost:3000/tasks");
+    const res = await fetch(`${baseURL}tasks`);
     if (res.ok) {
       const data = await res.json();
       return data;
@@ -20,7 +23,7 @@ export const getTasks = async (): Promise<iTask[]> => {
 
 export const createTask = async (data: tCreateTask): Promise<void> => {
   try {
-    const res: Response = await fetch("http://localhost:3000/tasks", {
+    const res: Response = await fetch(`${baseURL}tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,14 +32,7 @@ export const createTask = async (data: tCreateTask): Promise<void> => {
     });
     if (res.ok) {
       await res.json();
-      const tasksData: iTask[] = await getTasks();
-      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
-        const doneA = Boolean(a.done);
-        const doneB = Boolean(b.done);
-
-        return doneA === doneB ? 0 : doneA ? 1 : -1;
-      });
-      storeTasks.set([...sortItems]);
+      await fetchTasks();
     }
   } catch (error) {
     console.error(error);
@@ -48,34 +44,24 @@ export const updateTask = async (
   id: number
 ): Promise<void> => {
   try {
-    const res: Response = await fetch(
-      `http://localhost:3000/tasks/${String(id)}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const res: Response = await fetch(`${baseURL}tasks/${id + ""}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     if (res.ok) {
       const resData = await res.json();
-      const tasksData: iTask[] = await getTasks();
       if (resData.done) {
-        resData.subtasks.map((elt: any) => {
+        resData.subtasks.map((subtask: iSubtask) => {
           const updatedObj = {
             done: true,
           };
-          updateSubtask(updatedObj, elt.id);
+          updateSubtask(updatedObj, subtask.id);
         });
       }
-      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
-        const doneA = Boolean(a.done);
-        const doneB = Boolean(b.done);
-
-        return doneA === doneB ? 0 : doneA ? 1 : -1;
-      });
-      storeTasks.set([...sortItems]);
+      await fetchTasks();
     }
   } catch (error) {
     console.error(error);
@@ -85,18 +71,11 @@ export const updateTask = async (
 export const deleteTask = async (id: number): Promise<void> => {
   try {
     const formatData = String(id);
-    const res = await fetch(`http://localhost:3000/tasks/${formatData}`, {
+    const res = await fetch(`${baseURL}tasks/${formatData}`, {
       method: "DELETE",
     });
     if (res.ok) {
-      const tasksData: iTask[] = await getTasks();
-      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
-        const doneA = Boolean(a.done);
-        const doneB = Boolean(b.done);
-
-        return doneA === doneB ? 0 : doneA ? 1 : -1;
-      });
-      storeTasks.set([...sortItems]);
+      await fetchTasks();
     }
   } catch (error) {
     console.error(error);
@@ -108,27 +87,16 @@ export const createSubtask = async (
   id: number
 ): Promise<void> => {
   try {
-    const formattedData = id + "";
-    const res: Response = await fetch(
-      `http://localhost:3000/subtasks/${formattedData}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const res: Response = await fetch(`${baseURL}subtasks/${id + ""}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     if (res.ok) {
       await res.json();
-      const tasksData: iTask[] = await getTasks();
-      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
-        const doneA = Boolean(a.done);
-        const doneB = Boolean(b.done);
-
-        return doneA === doneB ? 0 : doneA ? 1 : -1;
-      });
-      storeTasks.set([...sortItems]);
+      await fetchTasks();
     }
   } catch (error) {
     console.error(error);
@@ -140,26 +108,16 @@ export const updateSubtask = async (
   id: number
 ): Promise<void> => {
   try {
-    const res: Response = await fetch(
-      `http://localhost:3000/subtasks/${String(id)}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const res: Response = await fetch(`${baseURL}subtasks/${String(id)}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     if (res.ok) {
       await res.json();
-      const tasksData: iTask[] = await getTasks();
-      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
-        const doneA = Boolean(a.done);
-        const doneB = Boolean(b.done);
-
-        return doneA === doneB ? 0 : doneA ? 1 : -1;
-      });
-      storeTasks.set([...sortItems]);
+      await fetchTasks();
     }
   } catch (error) {
     console.error(error);
@@ -168,19 +126,11 @@ export const updateSubtask = async (
 
 export const deleteSubtask = async (id: number): Promise<void> => {
   try {
-    const formatData = String(id);
-    const res = await fetch(`http://localhost:3000/subtasks/${formatData}`, {
+    const res = await fetch(`${baseURL}subtasks/${id + ""}`, {
       method: "DELETE",
     });
     if (res.ok) {
-      const tasksData: iTask[] = await getTasks();
-      const sortItems: iTask[] = tasksData.sort((a: iTask, b: iTask) => {
-        const doneA = Boolean(a.done);
-        const doneB = Boolean(b.done);
-
-        return doneA === doneB ? 0 : doneA ? 1 : -1;
-      });
-      storeTasks.set([...sortItems]);
+      await fetchTasks();
     }
   } catch (error) {
     console.error(error);

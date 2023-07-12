@@ -1,9 +1,11 @@
 <script lang="ts">
   import { type iTask } from "../interfaces/tasks.";
   import { dndzone } from "svelte-dnd-action";
+  import { flip } from "svelte/animate";
   import Card from "./Card.svelte";
 
   export let items: iTask[];
+  const flipDurationMs = 200;
 
   function handleConsider(e: CustomEvent<DndEvent<iTask>>) {
     items = e.detail.items;
@@ -15,17 +17,22 @@
 </script>
 
 <ul
-  use:dndzone={{ items: items }}
+  use:dndzone={{
+    items,
+    flipDurationMs,
+  }}
   on:consider={handleConsider}
   on:finalize={handleFinalize}
 >
   {#each items as item (item.id)}
-    <Card
-      title={item.title}
-      key={item.id}
-      completed={item.done}
-      subtasks={item.subtasks}
-    />
+    <div animate:flip={{ duration: flipDurationMs }}>
+      <Card
+        title={item.title}
+        key={item.id}
+        completed={item.done}
+        subtasks={item.subtasks}
+      />
+    </div>
   {/each}
 </ul>
 
@@ -35,5 +42,6 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding: 15px;
   }
 </style>

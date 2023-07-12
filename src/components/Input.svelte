@@ -1,6 +1,5 @@
 <script lang="ts">
   export let placeholder: string = undefined;
-  export let inputheader: boolean = false;
   export let inputnewtask: boolean = false;
   export let inputedittitle: boolean = false;
   export let value: string = undefined;
@@ -8,7 +7,6 @@
 
 <input
   class="input"
-  class:inputheader
   class:inputnewtask
   class:inputedittitle
   type="text"
@@ -20,40 +18,30 @@
 
 <style lang="scss">
   .input {
-    background-color: #262626;
-    padding: 1rem;
+    background-color: var(--color-gray-2);
+    padding: var(--padding-2);
 
     &:focus {
       outline: none;
-      background-color: #dcdcdc;
+      background-color: var(--color-gray-4);
     }
 
     &::placeholder {
-      color: #dcdcdc;
-      font-size: 0.875rem;
+      color: var(--color-gray-4);
+      font-size: var(--placeholder-1);
     }
-  }
-
-  .inputheader {
-    width: min(100%, 850px);
-    height: 45px;
-    border: transparent;
   }
 
   .inputnewtask {
     width: min(100%, 600px);
-    border-radius: 8px;
-    border: 1px solid #0d0d0d;
+    border-radius: var(--radius-1);
+    border: 1px solid var(--color-gray-1);
   }
 
   .inputedittitle {
-    background-color: #dcdcdc;
+    background-color: var(--color-gray-4);
     width: min(100%);
-    border-radius: 8px;
-    border: 1px solid #0d0d0d;
-
-    &:focus {
-      outline: none;
-    }
+    border-radius: var(--radius-1);
+    border: 1px solid var(--color-gray-1);
   }
 </style>
